@@ -1,0 +1,50 @@
+
+
+* Endpoints: 
+
+curl http://localhost:8888/reset -XPOST -H "Content-Type: application/json" -d '{"reset":true}'
+
+curl http://localhost:8888/go -XPOST -H "Content-Type: application/json" -d ''
+
+curl http://localhost:8888/status -H "Content-Type: application/json"
+
+
+
+
+* Operations:
+
+1. Load form information indo data.
+2. Go get current elemnts and add to data.
+3. Create new elements if the requested limit has not been reached. Use following order.
+	a. Publishers
+	b. Business Units
+	c. Users, Categories, Content Types, Projects
+	d. Content
+
+
+
+
+* Form: 
+
+action: /go
+
+Username: text input										<input type="text" name="username">
+key: text input													<input type="text" name="key">
+
+Publishers: number input max 10					<input type="number" name="publisher_count" min="1" max="10" value="5">
+Business Units: number input max 5			<input type="number" name="bu_count" min="1" max="10" value="5">
+Users: number input max 15							<input type="number" name="user_count" min="1" max="10" value="5">
+Categories: number input max 20					<input type="number" name="category_count" min="1" max="10" value="5">
+Content Types: number input max 5				diabled checkboxes for text and page and checkboxes for image, file and video
+Projects: number input max 10						<input type="number" name="project_count" min="1" max="10" value="5">
+Content: number input max 100						<input type="number" name="content_count" min="1" max="100" value="20">
+
+
+
+
+* I would like to see some sort of status page that updates itself and has progress bars.
+
+* Try and spread content out to the past so that all the posts are not on the same day.
+
+* The content will need to be based on the content type.
+

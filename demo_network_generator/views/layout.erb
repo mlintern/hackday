@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sinatra</title>
+  <meta charset="UTF-8">
+
+  <!-- Latest compiled and minified Bootstrap CSS -->
+  <link rel="stylesheet" href="stylesheets/third_party/bootstrap.min.css">
+  <!-- Optional Bootstrap theme -->
+  <link rel="stylesheet" href="stylesheets/third_party/bootstrap-theme.min.css">
+
+  <!-- Font Awesome -->
+  <link href="stylesheets/third_party/font-awesome.min.css" rel="stylesheet">
+
+  <!-- Application CSS -->
+  <link href="stylesheets/style.css" rel="stylesheet">
+
+  <!-- JQuery -->
+  <script type="text/javascript" src="javascripts/third_party/jquery-1.11.3.min.js"></script>
+
+</head>
+<body>
+  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#"><i class="icon-home icon-white"></i> Sinatra</a>
+      </div>
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <ul class="nav navbar-nav">
+          <li class="menu-item"><a class="js-trigger" href="#">Link <i class="fa fa-link"></i></a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="menu-item"><a class="js-trigger" href="#"><i class="fa fa-link"></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div style="height: 70px;"></div>
+
+  <div class="container">
+    <%= yield %> 
+  </div>
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="javascripts/third_party/bootstrap.min.js"></script>
+
+  <!-- Application Javascript -->
+  <script src="javascripts/scripts.js"></script>
+
+</body>
+</html>
