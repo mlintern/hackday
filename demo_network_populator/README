@@ -28,16 +28,25 @@ curl http://localhost:8888/status -H "Content-Type: application/json"
 
 action: /go
 
-Username: text input										<input type="text" name="username">
-key: text input													<input type="text" name="key">
+Username: text input
+	input type="text" name="username">
+key: text input
+	<input type="text" name="key">
 
-Publishers: number input max 10					<input type="number" name="publisher_count" min="1" max="10" value="5">
-Business Units: number input max 5			<input type="number" name="bu_count" min="1" max="10" value="5">
-Users: number input max 15							<input type="number" name="user_count" min="1" max="10" value="5">
-Categories: number input max 20					<input type="number" name="category_count" min="1" max="10" value="5">
-Content Types: number input max 5				diabled checkboxes for text and page and checkboxes for image, file and video
-Projects: number input max 10						<input type="number" name="project_count" min="1" max="10" value="5">
-Content: number input max 100						<input type="number" name="content_count" min="1" max="100" value="20">
+Publishers: number input max 10
+	<input type="number" name="publisher_count" min="1" max="10" value="5">
+Business Units: number input max 5
+	<input type="number" name="bu_count" min="1" max="10" value="5">
+Users: number input max 15
+	<input type="number" name="user_count" min="1" max="10" value="5">
+Categories: number input max 20
+	<input type="number" name="category_count" min="1" max="10" value="5">
+Content Types: number input max 5
+	diabled checkboxes for text and page and checkboxes for image, file and video
+Projects: number input max 10
+	<input type="number" name="project_count" min="1" max="10" value="5">
+Content: number input max 100
+	<input type="number" name="content_count" min="1" max="100" value="20">
 
 
 
