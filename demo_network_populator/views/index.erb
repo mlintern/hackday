@@ -1,1 +1,99 @@
-Hello World
+<div class="NewNetworkDialog">
+    <form id="NewNetworkDialogForm" autocomplete="off" method="get" action="">
+        <div class='message error'>
+        </div>
+        <!-- Create Network -->
+        <!--<div class="form-group">
+            <label for="CompanyName">Network Name</label>
+            <input type="text" class="form-control" id="CompanyName" name="CompanyName" placeholder="">
+        </div>
+        <div class="form-group">
+            <label for="NetworkType">Network Type</label>
+            <select id="NetworkType" class="form-control" name="NetworkType" required>
+				<option value=""></option>
+				<option value="1">Customer Production</option>
+				<option value="2">Customer Demo</option>
+				<option value="3">Sales Demo</option>
+				<option value="4">Partner Demo</option>
+				<option value="5">Development Testing</option>
+			</select>
+        </div>
+        <div class="form-group">
+            <label for="Hostname">Hostname</label>
+            <input type="text" class="form-control" id="HostName" name="HostName">
+        </div>
+        <div class="form-group">
+            <label for="UriBase">Sub-Directory Path (Use / for non sub-directory)</label>
+            <input type="text" class="form-control" id="UriBase" name="UriBase" value="/">
+        </div>
+        <div class="form-group">
+            <label for="OracleSubscriptionId">Oracle Subscription ID</label>
+            <input type="text" class="form-control" id="OracleSubscriptionId" name="OracleSubscriptionId">
+        </div>
+        <div class="network-admin-area">
+            <label for="UserName">Network Admin</label>
+            <div class="network-admin-table-area">
+        		<table width="500px">
+        		    <div class="form-group">
+            		    <label for="UserName">Username</Label>
+            		    <input type="text" class="form-control" id="UserName" name="UserName"/>
+        		    </div>
+        		    <div class="form-group">
+            		    <label for="EmailAddress">Email Address</Label>
+            		    <input type="text" class="form-control" id="EmailAddress" name="EmailAddress"/>
+        		    </div>
+        		    <div class="form-group">
+            		    <label for="FirstName">First Name</Label>
+            		    <input type="text" class="form-control" id="FirstName" name="FirstName"/>
+        		    </div>
+        		    <div class="form-group">
+            		    <label for="LastName">Last Name</Label>
+            		    <input type="text" class="form-control" id="LastName" name="LastName"/>
+        		    </div>
+        		</table>
+    		</div>
+        </div> -->
+        
+        <!-- Populate Network -->
+        <div class="form-group">
+		    <label for="UserName">Admin Username</Label>
+		    <input type="text" class="form-control" id="UserName" name="UserName"/>
+	    </div>
+	    <div class="form-group">
+		    <label for="UserKey">Admin API Key</Label>
+		    <input type="text" class="form-control" id="UserKey" name="UserKey"/>
+	    </div>
+	    <div class="form-group">
+		    <label for="UserCount">Number of Users</Label>
+		    <input type="number" min="1" max="10" class="form-control" id="UserCount" name="UserCount"/>
+	    </div>
+	    <div class="form-group">
+		    <label for="CategoryCount">Number of Categories</Label>
+		    <input type="number" min="1" max="10" class="form-control" id="CategoryCount" name="CategoryCount"/>
+	    </div>
+	    <div class="form-group">
+		    <label for="PublisherCount">Number of Publishers</Label>
+		    <input type="number" min="1" max="10" class="form-control" id="PublisherCount" name="PublisherCount"/>
+	    </div>
+	    <div class="form-group">
+		    <label for="BUCount">Number of Business Units</Label>
+		    <input type="number" min="1" max="10" class="form-control" id="BUCount" name="BUCount"/>
+	    </div>
+	    <div class="form-group">
+		    <label for="LanguageCount">Number of Languages</Label>
+		    <input type="number" min="1" max="10" class="form-control" id="LanguageCount" name="LanuageCount"/>
+	    </div>
+	    <div class="form-group">
+		    <label for="PersonaCount">Number of Personas</Label>
+		    <input type="number" min="1" max="10" class="form-control" id="PersonaCount" name="PersonaCount"/>
+	    </div>
+	    <div class="form-group">
+		    <label for="ContentCount">Number of Content Assets</Label>
+		    <input type="number" min="1" max="10" class="form-control" id="ContentCount" name="ContentCount"/>
+	    </div>
+	    
+        
+        <button id="save" type="submit" value="create" class="btn btn-default">Create</button>
+        <button id="cancel" value="cancel" class="btn btn-danger">Cancel</button>
+    </form>
+</div>

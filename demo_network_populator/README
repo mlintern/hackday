@@ -1,4 +1,7 @@
+* To Run App:
 
+1. run bundle
+2. run bundle exec ruby app.rb
 
 * Endpoints: 
 
