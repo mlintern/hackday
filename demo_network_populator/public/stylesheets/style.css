@@ -1,6 +1,12 @@
 /* style.css */
 
-html,body {
-	color: #fff;
-	background-color: #000;
+.navbar-brand {
+  font-size: 15px;
+  line-height: 14px;
+  font-weight: bold;
+  padding: 5px 0 5px 141px;
+  margin-top: 15px;
+  background: url("../images/oracle_logo_sm.png") no-repeat top left;
+  float: left;
+  height: auto;
 }

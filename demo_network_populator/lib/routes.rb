@@ -16,7 +16,6 @@ get '/status' do
 end
 
 post '/go' do
-  puts @request_payload
   admin = @request_payload["user"] || ""
   key = @request_payload[":key"] || ""
 
