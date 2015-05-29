@@ -1,121 +1,65 @@
-<div class="NewNetworkDialog">
-    <form id="NewNetworkDialogForm" class="form-horizontal" autocomplete="off" method="get" action="">
-        <div class='message error'>
-        </div>
-        <!-- Create Network -->
-        <!--<div class="form-group">
-            <label for="CompanyName">Network Name</label>
-            <input type="text" class="form-control" id="CompanyName" name="CompanyName" placeholder="">
-        </div>
+<div>
+  <form class="form-horizontal row" autocomplete="off" method="get" action="/go">
+    <div class="col-sm-6">
         <div class="form-group">
-            <label for="NetworkType">Network Type</label>
-            <select id="NetworkType" class="form-control" name="NetworkType" required>
-				<option value=""></option>
-				<option value="1">Customer Production</option>
-				<option value="2">Customer Demo</option>
-				<option value="3">Sales Demo</option>
-				<option value="4">Partner Demo</option>
-				<option value="5">Development Testing</option>
-			</select>
-        </div>
-        <div class="form-group">
-            <label for="Hostname">Hostname</label>
-            <input type="text" class="form-control" id="HostName" name="HostName">
-        </div>
-        <div class="form-group">
-            <label for="UriBase">Sub-Directory Path (Use / for non sub-directory)</label>
-            <input type="text" class="form-control" id="UriBase" name="UriBase" value="/">
-        </div>
-        <div class="form-group">
-            <label for="OracleSubscriptionId">Oracle Subscription ID</label>
-            <input type="text" class="form-control" id="OracleSubscriptionId" name="OracleSubscriptionId">
-        </div>
-        <div class="network-admin-area">
-            <label for="UserName">Network Admin</label>
-            <div class="network-admin-table-area">
-        		<table width="500px">
-        		    <div class="form-group">
-            		    <label for="UserName">Username</Label>
-            		    <input type="text" class="form-control" id="UserName" name="UserName"/>
-        		    </div>
-        		    <div class="form-group">
-            		    <label for="EmailAddress">Email Address</Label>
-            		    <input type="text" class="form-control" id="EmailAddress" name="EmailAddress"/>
-        		    </div>
-        		    <div class="form-group">
-            		    <label for="FirstName">First Name</Label>
-            		    <input type="text" class="form-control" id="FirstName" name="FirstName"/>
-        		    </div>
-        		    <div class="form-group">
-            		    <label for="LastName">Last Name</Label>
-            		    <input type="text" class="form-control" id="LastName" name="LastName"/>
-        		    </div>
-        		</table>
-    		</div>
-        </div> -->
+        <label for="UserName" class="col-sm-5 control-label">Admin Username</Label>
+        <div class="col-sm-7"><input type="text" class="form-control" id="UserName" name="UserName"/></div>
+      </div>
+      <div class="form-group">
+        <label for="UserKey" class="col-sm-5 control-label">Admin API Key</Label>
+        <div class="col-sm-7"><input type="text" class="form-control" id="UserKey" name="UserKey"/></div>
+      </div>
+      <div class="form-group">
+        <label for="PublisherCount" class="col-sm-5 control-label">Number of Publishers</Label>
+        <div class="col-sm-7"><input type="number" min="1" max="10" class="form-control" id="PublisherCount" name="PublisherCount" value="5"/></div>
+      </div>
+      <div class="form-group">
+        <label for="BUCount" class="col-sm-5 control-label">Number of Business Units</Label>
+        <div class="col-sm-7"><input type="number" min="1" max="5" class="form-control" id="BUCount" name="BUCount" value="5"/></div>
+      </div>
+      <div class="form-group">
+        <label for="LanguageCount" class="col-sm-5 control-label">Number of Languages</Label>
+        <div class="col-sm-7"><input type="number" min="1" max="10" class="form-control" id="LanguageCount" name="LanuageCount" value="5"/></div>
+      </div>
+    </div>
 
-        <!-- Populate Network -->
-        <div class="col-sm-6">
-	        <div class="form-group">
-			    <label for="UserName" class="col-sm-5 control-label">Admin Username</Label>
-			    <div class="col-sm-7"><input type="text" class="form-control" id="UserName" name="UserName"/></div>
-		    </div>
-		    <div class="form-group">
-			    <label for="UserKey" class="col-sm-5 control-label">Admin API Key</Label>
-			    <div class="col-sm-7"><input type="text" class="form-control" id="UserKey" name="UserKey"/></div>
-		    </div>
-		    <div class="form-group">
-			    <label for="PublisherCount" class="col-sm-5 control-label">Number of Publishers</Label>
-			    <div class="col-sm-7"><input type="number" min="1" max="10" class="form-control" id="PublisherCount" name="PublisherCount" value="5"/></div>
-		    </div>
-		    <div class="form-group">
-			    <label for="BUCount" class="col-sm-5 control-label">Number of Business Units</Label>
-			    <div class="col-sm-7"><input type="number" min="1" max="5" class="form-control" id="BUCount" name="BUCount" value="5"/></div>
-		    </div>
-		    <div class="form-group">
-			    <label for="LanguageCount" class="col-sm-5 control-label">Number of Languages</Label>
-			    <div class="col-sm-7"><input type="number" min="1" max="10" class="form-control" id="LanguageCount" name="LanuageCount" value="5"/></div>
-		    </div>
-		</div>	
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label for="UserCount" class="col-sm-5 control-label">Number of Users</Label>
+        <div class="col-sm-7"><input type="number" min="1" max="15" class="form-control" id="UserCount" name="UserCount" value="5"/></div>
+      </div>
+      <div class="form-group">
+        <label for="CategoryCount" class="col-sm-5 control-label">Number of Categories</Label>
+        <div class="col-sm-7"><input type="number" min="1" max="20" class="form-control" id="CategoryCount" name="CategoryCount" value="5"/></div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-5 control-label">Content Types</Label>
+          <div class="col-sm-7">
+            <div class="checkboxes">
+              <div class="checkbox"><input type="checkbox" disabled="disabled" checked="checked"/> Text Post</div>
+              <div class="checkbox"><input type="checkbox" disabled="disabled" checked="checked"/> Landing Page</div>
+              <div class="checkbox"><input type="checkbox" /> Image Post</div>
+              <div class="checkbox"><input type="checkbox" /> Video Post</div>
+              <div class="checkbox"><input type="checkbox" /> File Upload</div>
+            </div>
+          </div>
+      </div>
+      <div class="form-group">
+        <label for="ProjectCount" class="col-sm-5 control-label">Number of Projects</Label>
+        <div class="col-sm-7"><input type="number" min="1" max="10" class="form-control" id="ProjectCount" name="ProjectCount" value="5"/></div>
+      </div>
+      <div class="form-group">
+        <label for="PersonaCount" class="col-sm-5 control-label">Number of Personas</Label>
+        <div class="col-sm-7"><input type="number" min="1" max="10" class="form-control" id="PersonaCount" name="PersonaCount" value="5"/></div>
+      </div>
+      <div class="form-group">
+        <label for="ContentCount" class="col-sm-5 control-label">Number of Content Assets</Label>
+        <div class="col-sm-7"><input type="number" min="1" max="100" class="form-control" id="ContentCount" name="ContentCount" value="20"/></div>
+      </div>
+    </div>
 
-	    <div class="col-sm-6">
-		    <div class="form-group">
-			    <label for="UserCount" class="col-sm-5 control-label">Number of Users</Label>
-			    <div class="col-sm-7"><input type="number" min="1" max="15" class="form-control" id="UserCount" name="UserCount" value="5"/></div>
-		    </div>
-		    <div class="form-group">
-			    <label for="CategoryCount" class="col-sm-5 control-label">Number of Categories</Label>
-			    <div class="col-sm-7"><input type="number" min="1" max="20" class="form-control" id="CategoryCount" name="CategoryCount" value="5"/></div>
-		    </div>
-		    <div class="form-group">
-			    <label class="col-sm-5 control-label">Content Types</Label>
-			    	<div class="col-sm-7">
-			    		<div style="padding-left:15px;">
-					    	<div class="checkbox"><input type="checkbox" disabled="disabled" checked="checked"/> Text Post</div>
-					    	<div class="checkbox"><input type="checkbox" disabled="disabled" checked="checked"/> Landing Page</div>
-					    	<div class="checkbox"><input type="checkbox" /> Image Post</div>
-					    	<div class="checkbox"><input type="checkbox" /> Video Post</div>
-					    	<div class="checkbox"><input type="checkbox" /> File Upload</div>
-					    </div>
-				    </div>
-		    </div>
-		    <div class="form-group">
-			    <label for="ProjectCount" class="col-sm-5 control-label">Number of Projects</Label>
-			    <div class="col-sm-7"><input type="number" min="1" max="10" class="form-control" id="ProjectCount" name="ProjectCount" value="5"/></div>
-		    </div>
-		    <div class="form-group">
-			    <label for="PersonaCount" class="col-sm-5 control-label">Number of Personas</Label>
-			    <div class="col-sm-7"><input type="number" min="1" max="10" class="form-control" id="PersonaCount" name="PersonaCount" value="5"/></div>
-		    </div>
-		    <div class="form-group">
-			    <label for="ContentCount" class="col-sm-5 control-label">Number of Content Assets</Label>
-			    <div class="col-sm-7"><input type="number" min="1" max="100" class="form-control" id="ContentCount" name="ContentCount" value="20"/></div>
-		    </div>
-		</div>
-	    
-        <div class="pull-right">
-	        <button id="save" type="submit" value="create" class="btn btn-default">Create</button>
-	        <button id="cancel" value="cancel" class="btn btn-danger">Cancel</button>
-	    </div>
-    </form>
+    <div class="pull-right">
+      <button id="save" type="submit" value="create" class="btn btn-default">Execute</button>
+    </div>
+  </form>
 </div>
