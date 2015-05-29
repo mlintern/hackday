@@ -1,65 +1,67 @@
 <div>
-  <form class="form-horizontal row" autocomplete="off" method="get" action="/go">
-    <div class="col-sm-6">
-        <div class="form-group">
-        <label for="UserName" class="col-sm-5 control-label">Admin Username</Label>
-        <div class="col-sm-7"><input type="text" class="form-control" id="UserName" name="UserName"/></div>
-      </div>
-      <div class="form-group">
-        <label for="UserKey" class="col-sm-5 control-label">Admin API Key</Label>
-        <div class="col-sm-7"><input type="text" class="form-control" id="UserKey" name="UserKey"/></div>
-      </div>
-      <div class="form-group">
-        <label for="PublisherCount" class="col-sm-5 control-label">Number of Publishers</Label>
-        <div class="col-sm-7"><input type="number" min="1" max="10" class="form-control" id="PublisherCount" name="PublisherCount" value="5"/></div>
-      </div>
-      <div class="form-group">
-        <label for="BUCount" class="col-sm-5 control-label">Number of Business Units</Label>
-        <div class="col-sm-7"><input type="number" min="1" max="5" class="form-control" id="BUCount" name="BUCount" value="5"/></div>
-      </div>
-      <div class="form-group">
-        <label for="LanguageCount" class="col-sm-5 control-label">Number of Languages</Label>
-        <div class="col-sm-7"><input type="number" min="1" max="10" class="form-control" id="LanguageCount" name="LanuageCount" value="5"/></div>
-      </div>
-    </div>
+	<form class="form-horizontal" autocomplete="off" method="get" action="/go">
+		<div class="row">
+			<div class="col-sm-6">
+					<div class="form-group">
+					<label for="UserName" class="col-sm-5 control-label">Admin Username</Label>
+					<div class="col-sm-7"><input type="text" class="form-control" id="UserName" name="UserName"/></div>
+				</div>
+				<div class="form-group">
+					<label for="UserKey" class="col-sm-5 control-label">Admin API Key</Label>
+					<div class="col-sm-7"><input type="text" class="form-control" id="UserKey" name="UserKey"/></div>
+				</div>
+				<div class="form-group">
+					<label for="PublisherCount" class="col-sm-5 control-label">Number of Publishers</Label>
+					<div class="col-sm-7"><input type="number" min="1" max="10" class="form-control" id="PublisherCount" name="PublisherCount" value="5"/></div>
+				</div>
+				<div class="form-group">
+					<label for="BUCount" class="col-sm-5 control-label">Number of Business Units</Label>
+					<div class="col-sm-7"><input type="number" min="1" max="5" class="form-control" id="BUCount" name="BUCount" value="5"/></div>
+				</div>
+				<div class="form-group">
+					<label for="LanguageCount" class="col-sm-5 control-label">Number of Languages</Label>
+					<div class="col-sm-7"><input type="number" min="1" max="10" class="form-control" id="LanguageCount" name="LanuageCount" value="5"/></div>
+				</div>
+			</div>
 
-    <div class="col-sm-6">
-      <div class="form-group">
-        <label for="UserCount" class="col-sm-5 control-label">Number of Users</Label>
-        <div class="col-sm-7"><input type="number" min="1" max="15" class="form-control" id="UserCount" name="UserCount" value="5"/></div>
-      </div>
-      <div class="form-group">
-        <label for="CategoryCount" class="col-sm-5 control-label">Number of Categories</Label>
-        <div class="col-sm-7"><input type="number" min="1" max="20" class="form-control" id="CategoryCount" name="CategoryCount" value="5"/></div>
-      </div>
-      <div class="form-group">
-        <label class="col-sm-5 control-label">Content Types</Label>
-          <div class="col-sm-7">
-            <div class="checkboxes">
-              <div class="checkbox"><input type="checkbox" disabled="disabled" checked="checked"/> Text Post</div>
-              <div class="checkbox"><input type="checkbox" disabled="disabled" checked="checked"/> Landing Page</div>
-              <div class="checkbox"><input type="checkbox" /> Image Post</div>
-              <div class="checkbox"><input type="checkbox" /> Video Post</div>
-              <div class="checkbox"><input type="checkbox" /> File Upload</div>
-            </div>
-          </div>
-      </div>
-      <div class="form-group">
-        <label for="ProjectCount" class="col-sm-5 control-label">Number of Projects</Label>
-        <div class="col-sm-7"><input type="number" min="1" max="10" class="form-control" id="ProjectCount" name="ProjectCount" value="5"/></div>
-      </div>
-      <div class="form-group">
-        <label for="PersonaCount" class="col-sm-5 control-label">Number of Personas</Label>
-        <div class="col-sm-7"><input type="number" min="1" max="10" class="form-control" id="PersonaCount" name="PersonaCount" value="5"/></div>
-      </div>
-      <div class="form-group">
-        <label for="ContentCount" class="col-sm-5 control-label">Number of Content Assets</Label>
-        <div class="col-sm-7"><input type="number" min="1" max="100" class="form-control" id="ContentCount" name="ContentCount" value="20"/></div>
-      </div>
-    </div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="UserCount" class="col-sm-5 control-label">Number of Users</Label>
+					<div class="col-sm-7"><input type="number" min="1" max="15" class="form-control" id="UserCount" name="UserCount" value="5"/></div>
+				</div>
+				<div class="form-group">
+					<label for="CategoryCount" class="col-sm-5 control-label">Number of Categories</Label>
+					<div class="col-sm-7"><input type="number" min="1" max="20" class="form-control" id="CategoryCount" name="CategoryCount" value="5"/></div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-5 control-label">Content Types</Label>
+						<div class="col-sm-7">
+							<div class="checkboxes">
+								<div class="checkbox"><input type="checkbox" disabled="disabled" checked="checked"/> Text Post</div>
+								<div class="checkbox"><input type="checkbox" disabled="disabled" checked="checked"/> Landing Page</div>
+								<div class="checkbox"><input type="checkbox" /> Image Post</div>
+								<div class="checkbox"><input type="checkbox" /> Video Post</div>
+								<div class="checkbox"><input type="checkbox" /> File Upload</div>
+							</div>
+						</div>
+				</div>
+				<div class="form-group">
+					<label for="ProjectCount" class="col-sm-5 control-label">Number of Projects</Label>
+					<div class="col-sm-7"><input type="number" min="1" max="10" class="form-control" id="ProjectCount" name="ProjectCount" value="5"/></div>
+				</div>
+				<div class="form-group">
+					<label for="PersonaCount" class="col-sm-5 control-label">Number of Personas</Label>
+					<div class="col-sm-7"><input type="number" min="1" max="10" class="form-control" id="PersonaCount" name="PersonaCount" value="5"/></div>
+				</div>
+				<div class="form-group">
+					<label for="ContentCount" class="col-sm-5 control-label">Number of Content Assets</Label>
+					<div class="col-sm-7"><input type="number" min="1" max="100" class="form-control" id="ContentCount" name="ContentCount" value="20"/></div>
+				</div>
+			</div>
+		</div>
 
-    <div class="pull-right">
-      <button id="save" type="submit" value="create" class="btn btn-default">Execute</button>
-    </div>
-  </form>
+		<div class="pull-right">
+			<button id="save" type="submit" value="create" class="btn btn-default">Execute</button>
+		</div>
+	</form>
 </div>
