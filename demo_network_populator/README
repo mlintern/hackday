@@ -9,7 +9,7 @@ curl http://localhost:8888/reset -XPOST -H "Content-Type: application/json" -d '
 
 curl http://localhost:8888/go -XPOST -H "Content-Type: application/json" -d ''
 
-curl http://localhost:8888/status -H "Content-Type: application/json"
+curl http://localhost:8888/status/check -H "Content-Type: application/json"
 
 
 

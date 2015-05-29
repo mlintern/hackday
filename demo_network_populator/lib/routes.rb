@@ -12,10 +12,15 @@ get '/' do
 end
 
 get '/status' do
+  erb :status
+end
+
+get '/status/check' do
   return 200, data.to_json
 end
 
 post '/go' do
+  puts @request_payload
   admin = @request_payload["user"] || ""
   key = @request_payload[":key"] || ""
 

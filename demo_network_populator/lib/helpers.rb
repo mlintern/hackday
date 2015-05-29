@@ -58,8 +58,8 @@ end
 def add_content_type(data)
   unless maxed_out?(data[:projects])
     # Create New Item Here
-    data[:content_type][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid, :type => "rich_text" }
-    data[:content_type][:count] += 1
+    data[:content_types][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid, :type => "rich_text" }
+    data[:content_types][:count] += 1
   end
   data
 end
