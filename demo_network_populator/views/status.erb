@@ -30,9 +30,14 @@
   <div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
 </div>
 
+<h3>Languages</h3>
+<div class="progress languages-status">
+  <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+</div>
+
 <h3>Content</h3>
 <div class="progress content-status">
-  <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+  <div class="progress-bar progress-bar-danger progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
 </div>
 
 <script>
@@ -42,14 +47,14 @@ function updateProgress () {
 		dataType: 'json',
 		contentType: "application/json",
 		success: function(data) {
-			console.debug(data);
-			$(".publishers-status .progress-bar").width( ( ( data["publishers"]["count"] / data["publishers"]["max"] ) * 100 ).toString() + "%" )
-			$(".business-units-status .progress-bar").width( ( ( data["business_units"]["count"] / data["business_units"]["max"] ) * 100 ).toString() + "%" )
-			$(".users-status .progress-bar").width( ( ( data["users"]["count"] / data["users"]["max"] ) * 100 ).toString() + "%" )
-			$(".categories-status .progress-bar").width( ( ( data["categories"]["count"] / data["categories"]["max"] ) * 100 ).toString() + "%" )
-			$(".content-types-status .progress-bar").width( ( ( data["content_types"]["count"] / data["content_types"]["max"] ) * 100 ).toString() + "%" )
-			$(".projects-status .progress-bar").width( ( ( data["projects"]["count"] / data["projects"]["max"] ) * 100 ).toString() + "%" )
-			$(".content-status .progress-bar").width( ( ( data["content"]["count"] / data["content"]["max"] ) * 100 ).toString() + "%" )
+			$(".publishers-status .progress-bar").width( ( ( data["publishers"]["count"] / data["publishers"]["max"] ) * 100 ).toString() + "%" );
+			$(".business-units-status .progress-bar").width( ( ( data["business_units"]["count"] / data["business_units"]["max"] ) * 100 ).toString() + "%" );
+			$(".users-status .progress-bar").width( ( ( data["users"]["count"] / data["users"]["max"] ) * 100 ).toString() + "%" );
+			$(".categories-status .progress-bar").width( ( ( data["categories"]["count"] / data["categories"]["max"] ) * 100 ).toString() + "%" );
+			$(".content-types-status .progress-bar").width( ( ( data["content_types"]["count"] / data["content_types"]["max"] ) * 100 ).toString() + "%" );
+			$(".projects-status .progress-bar").width( ( ( data["projects"]["count"] / data["projects"]["max"] ) * 100 ).toString() + "%" );
+			$(".content-status .progress-bar").width( ( ( data["content"]["count"] / data["content"]["max"] ) * 100 ).toString() + "%" );
+			$(".languages-status .progress-bar").width( ( ( data["languages"]["count"] / data["languages"]["max"] ) * 100 ).toString() + "%" );
 		},
 		error: function(data) {
 			console.debug(data);

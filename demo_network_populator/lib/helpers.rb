@@ -55,6 +55,15 @@ def add_content(data)
   data
 end
 
+def add_language(data)
+  unless maxed_out?(data[:content])
+    # Create New Item Here
+    data[:languages][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid }
+    data[:languages][:count] += 1
+  end
+  data
+end
+
 def add_content_type(data)
   unless maxed_out?(data[:projects])
     # Create New Item Here
@@ -80,6 +89,7 @@ def populate(data)
     data = add_content_type(data)
     data = add_publisher(data)
     data = add_bu(data)
+    data = add_language(data)
     data = add_project(data)
     data = add_category(data)
     data = add_user(data)
