@@ -74,12 +74,8 @@ def default_template
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="google-site-verification" content="XXXXXXXXX">
     <link rel="alternate" type="application/rss+xml" title="{{ BlogTitle }}" href="{{ RssFeedUrl }}">
-    {% if MetaDescription %}
-    <meta name="description" content="{{ MetaDescription|raw }}">
-    {% endif %}
-    {% if Posts|length == 0 %}
-    <meta name="robots" content="noindex"/>
-    {% endif %}
+    {% if MetaDescription %}<meta name="description" content="{{ MetaDescription|raw }}">{% endif %}
+    {% if Posts|length == 0 %}<meta name="robots" content="noindex"/>{% endif %}
     <meta name="host_name" content="{{ HostName|raw }}">
     <meta name="title" content="{{ PageTitle|raw }}">
     <meta name="page_type" content="{{ PageType|raw }}">
@@ -97,8 +93,7 @@ def default_template
     <meta name="category" content="{% for Category in Posts[0].CategoryBlogs %}{{Category.Name}} {% endfor %}">
     {%elseif PageType == "list" %}
     <meta name="category" content="{{ BlogTitle|raw }}">
-    {%else%}
-    {% endif %}
+    {%else%}{% endif %}
     <meta name="cpdm_tracker" content="UA-2883046-6">
     <meta name="network_tracker" content="">
     <meta name="extra_trackers" content="">
@@ -142,6 +137,7 @@ def default_template
             .comment-submit { position: absolute; bottom: 0; right: 1rem; }   
         } /* min-width 641px, medium screens */
         
+        
         /* Alert panel container */
         .alert-panel { margin-bottom: 1.5em; line-height: 1.3em; }
         .alert-panel p, .alert-panel a, .alert-panel h1, .alert-panel h2, .alert-panel h3, .alert-panel h4, .alert-panel h5, .alert-panel h6 { margin-bottom: 0; margin-top: 0; }
@@ -173,26 +169,28 @@ def default_template
         <div class="row response {{Response.Status}}">{{Response.Message }}</div>
     {% endif %}
 
-      <!-- Nav Bar -->
-      <div class="row">
+    <!-- Nav Bar -->
+    <div class="row">
         <div class="large-12 columns">
-          <div class="nav-bar right">
-           <div class="show-for-small-only"><a class="menu-toggle" href="javascript:void(0)" onclick="$(".nav-menu").toggle();"><i class="fa fa-2x fa-bars"></i></a></div>
-           <ul class="button-group nav-menu">
-              <li><a target="_blank" href="#" class="button alert"><i class="fa fa-link"></i>&nbsp;link</a></li>
-              <li><a target="_blank" href="#" class="button alert"><i class="fa fa-link"></i>&nbsp;link</a></li>
-              <li><a target="_blank" href="#" class="button alert"><i class="fa fa-link"></i>&nbsp;link</a></li>
-            </ul>
-          </div>
-          <div class="show-for-small-only clearfix"></div>
-          <h1><a href="{{BaseUrl}}">Hello World</a> <small>Let me tell you</small></h1>
-          <hr />
+        <div class="nav-bar right">
+        <div class="show-for-small-only"><a class="menu-toggle" href="javascript:void(0)" onclick="$(".nav-menu").toggle();"><i class="fa fa-2x fa-bars"></i></a></div>
+        <ul class="button-group nav-menu">
+            <li><a target="_blank" href="#" class="button alert"><i class="fa fa-link"></i>&nbsp;link</a></li>
+            <li><a target="_blank" href="#" class="button alert"><i class="fa fa-link"></i>&nbsp;link</a></li>
+            <li><a target="_blank" href="#" class="button alert"><i class="fa fa-link"></i>&nbsp;link</a></li>
+            <li><a target="_blank" href="#" class="button alert"><i class="fa fa-link"></i>&nbsp;link</a></li>
+            <li><a target="_blank" href="#" class="button alert"><i class="fa fa-link"></i>&nbsp;link</a></li>
+        </ul>
         </div>
-      </div>
-      <!-- End Nav -->
+        <div class="show-for-small-only clearfix"></div>
+        <h1><a href="{{BaseUrl}}">Hello World</a> <small>Let me tell you</small></h1>
+        <hr />
+        </div>
+    </div>
+    <!-- End Nav -->
      
-      <!-- Main Page Content and Sidebar -->
-      <div class="row">
+    <!-- Main Page Content and Sidebar -->
+    <div class="row">
         <!-- Main Blog Content -->
         <div class="large-9 columns" role="content">
             
@@ -222,29 +220,21 @@ def default_template
                     {% endif %}
                 </div>
                 
-              </article>
-              <hr />
+            </article>
+            <hr />
           
-          {% endfor %}
+            {% endfor %}
           
-          <div class="row"style="margin-top: 1rem;">
-            <div class="columns small-12">
-            {% if PreviousPostUrl %}
-                <a class="button alert right" href="{{PreviousPostUrl}}">Older &rarr;</a>
-            {% endif %}
-            {% if NextPostUrl %}
-                <a class="button alert" href="{{NextPostUrl}}">&larr; Newer</a>
-            {% endif %}
-            {% if PreviousPage %}
-                <a class="button alert" href="{{PreviousPage}}">&larr; Newer</a>
-            {% endif %}
-            {% if NextPage %}
-                <a class="button alert right" href="{{NextPage}}">Older &rarr;</a>
-            {% endif %}
+            <div class="row"style="margin-top: 1rem;">
+                <div class="columns small-12">
+                    {% if PreviousPostUrl %}<a class="button alert right" href="{{PreviousPostUrl}}">Older &rarr;</a>{% endif %}
+                    {% if NextPostUrl %}<a class="button alert" href="{{NextPostUrl}}">&larr; Newer</a>{% endif %}
+                    {% if PreviousPage %}<a class="button alert" href="{{PreviousPage}}">&larr; Newer</a>{% endif %}
+                    {% if NextPage %}<a class="button alert right" href="{{NextPage}}">Older &rarr;</a>{% endif %}
+                </div>
             </div>
-          </div>
           
-          {% if LongPageType == "Item Page" %}
+           {% if LongPageType == "Item Page" %}
             {# Compendium Comments #}
             <div class="comments">                              
                 <h3>Comments for <span><a href="{{Post.PostUrl}}">{{Posts[0].PostTitle|raw}}</a></span></h3>
@@ -294,7 +284,7 @@ def default_template
                     </div>
                 </form>
             </div> {##}
-          {% endif %}
+            {% endif %}
           
         </div>
         <!-- End Main Content -->
@@ -309,29 +299,27 @@ def default_template
           {% PostListWidget "Last Couple" { "Vars":{ "ExtraText":"Text From Variable" } } %}
         </aside>
         <!-- End Sidebar -->
-      </div>
-      <!-- End Main Content and Sidebar -->
+    </div>
+    <!-- End Main Content and Sidebar -->
      
       <!-- Footer -->
-      <footer class="row">
+    <footer class="row">
         <div class="large-12 columns">
-          <hr />
-          <div class="row">
-            <div class="large-4 columns">
-              <p>&copy; Copyright Hello World.</p>
+            <hr />
+            <div class="row">
+                <div class="large-4 columns">
+                    <p>&copy; Copyright Hello World.</p>
+                </div>
+                <div class="large-8 columns">
+                    <ul class="inline-list right">
+                        <li><a target="_blank" href="#">link</a></li>
+                        <li><a target="_blank" href="#">link</a></li>
+                        <li><a target="_blank" href="#">link</a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="large-8 columns">
-              <ul class="inline-list right">
-                <li><a target="_blank" href="#">link</a></li>
-                <li><a target="_blank" href="#">link</a></li>
-                <li><a target="_blank" href="#">link</a></li>
-                <li><a target="_blank" href="#">link</a></li>
-                <li><a target="_blank" href="#">link</a></li>
-              </ul>
-            </div>
-          </div>
         </div>
-      </footer>    
+    </footer>    
 
     <!-- Foundation core JavaScript
     ================================================== -->
@@ -343,6 +331,5 @@ def default_template
         $(document).foundation();
     </script>
   </body>
-</html>
-'
+</html>'
 end
