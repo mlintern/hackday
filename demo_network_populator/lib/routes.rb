@@ -27,9 +27,11 @@ post '/go' do
   data[:auth_user] = Nretnil::Password.uuid
   data[:network_id] = Nretnil::Password.uuid
 
-  data = populate(data)
-
-  return 200, data.to_json
+  if populate(data)
+    return 200, { :success => true }.to_json
+  else
+    return 200, { :success => false }.to_json
+  end
 end
 
 post '/reset' do  
