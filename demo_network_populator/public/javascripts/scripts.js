@@ -69,3 +69,7 @@ function execute() {
 	});
 	window.location.replace("/status");
 }
+
+if ( window.location.pathname == "/status" || window.location.pathname == "/status/" ) {
+	setInterval(getStatusCheck, 2000);
+}
