@@ -22,18 +22,18 @@ end
 
 def languages
   return [
-    {"English","EN"}
-    {"Spanish","ES"},
-    {"French","FR"},
-    {"German","DE"},
-    {"Greek","EL"},
-    {"Tamil","TA"},
-    {"Russian","RU"},
-    {"Portuguese","PT"},
-    {"Arabic","AR"},
-    {"Swedish","SV"},
-    {"Dutch","NL"},
-    {"Italian","IT"},
-    {"Japanese","JA"}
+    {:name => "English", :code => "EN"},
+    {:name => "Spanish", :code => "ES"},
+    {:name => "French", :code => "FR"},
+    {:name => "German", :code => "DE"},
+    {:name => "Greek", :code => "EL"},
+    {:name => "Tamil", :code => "TA"},
+    {:name => "Russian", :code => "RU"},
+    {:name => "Portuguese", :code => "PT"},
+    {:name => "Arabic", :code => "AR"},
+    {:name => "Swedish", :code => "SV"},
+    {:name => "Dutch", :code => "NL"},
+    {:name => "Italian", :code => "IT"},
+    {:name => "Japanese", :code => "JA"}
   ]
 end
