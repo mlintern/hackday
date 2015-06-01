@@ -11,11 +11,11 @@ get '/' do
   erb :index 
 end
 
-get '/status' do
+get '/status/?' do
   erb :status
 end
 
-get '/status/check' do
+get '/status/check/?' do
   return 200, data.to_json
 end
 
