@@ -41,26 +41,5 @@
 </div>
 
 <script>
-function updateProgress () {
-	$.ajax({
-		url: '/status/check',
-		dataType: 'json',
-		contentType: "application/json",
-		success: function(data) {
-			$(".publishers-status .progress-bar").width( ( ( data["publishers"]["count"] / data["publishers"]["max"] ) * 100 ).toString() + "%" );
-			$(".business-units-status .progress-bar").width( ( ( data["business_units"]["count"] / data["business_units"]["max"] ) * 100 ).toString() + "%" );
-			$(".users-status .progress-bar").width( ( ( data["users"]["count"] / data["users"]["max"] ) * 100 ).toString() + "%" );
-			$(".categories-status .progress-bar").width( ( ( data["categories"]["count"] / data["categories"]["max"] ) * 100 ).toString() + "%" );
-			$(".content-types-status .progress-bar").width( ( ( data["content_types"]["count"] / data["content_types"]["max"] ) * 100 ).toString() + "%" );
-			$(".projects-status .progress-bar").width( ( ( data["projects"]["count"] / data["projects"]["max"] ) * 100 ).toString() + "%" );
-			$(".content-status .progress-bar").width( ( ( data["content"]["count"] / data["content"]["max"] ) * 100 ).toString() + "%" );
-			$(".languages-status .progress-bar").width( ( ( data["languages"]["count"] / data["languages"]["max"] ) * 100 ).toString() + "%" );
-		},
-		error: function(data) {
-			console.debug(data);
-		}
-	});
-}
-
-setInterval(updateProgress, 2000);
+setInterval(getStatusCheck, 2000);
 </script>
