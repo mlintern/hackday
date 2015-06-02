@@ -15,10 +15,6 @@ form hr {
 	margin-top: 5px;
 }
 
-.checkboxes {
-	padding-left: 20px;
-}
-
 .main-container {
 	margin-top: 70px;
 	margin-bottom: 50px;
@@ -33,9 +29,9 @@ form hr {
 }
 
 .well .label {
-  display: inline-block;
-  margin: 0 2px;
-  font-weight: normal;
+	display: inline-block;
+	margin: 0 2px;
+	font-weight: normal;
 }
 
 .expander {
@@ -46,3 +42,32 @@ form hr {
 .page-header {
 	margin-top: 20px;
 }
+
+/* custom checkboxes */
+
+input[type=checkbox] {
+position: relative;
+}
+
+label>input[type=checkbox]:before {
+position: absolute;
+background-color: #FFFFFF;
+height: 100%;
+width: 100%;
+font-family: FontAwesome;
+display: inline-block;
+content:"\f204";
+}
+
+label>input[type=checkbox]:checked:before {
+font-family: FontAwesome;
+display: inline-block;
+content:"\f205";
+color: green;
+}
+
+label>input[type=checkbox]:disabled {
+opacity: 0.5;
+}
+
+
