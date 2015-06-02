@@ -6,6 +6,15 @@ class String
   end
 end
 
+def auth_test(data)
+  puts content_types = data[:auth_user].content_type.list
+  if !content_types.key?(:error) && content_types.length > 0
+    return true
+  else
+    return false
+  end
+end
+
 def get_current_data(data)
 
   # publishers
@@ -23,7 +32,7 @@ end
 def add_user(data)
   # Create New Item Here
   # data[:auth_user].user.add()
-  data[:users][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid }
+  data[:users][:items] << { :name => Nretnil::FakeData.fullname, :id => Nretnil::Password.uuid }
   data[:users][:count] += 1
   data
 end

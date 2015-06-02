@@ -45,14 +45,18 @@ function getStatusCheck () {
 		dataType: 'json',
 		contentType: "application/json",
 		success: function(data) {
-			updateProgress(data["publishers"],"publishers-status");
-			updateProgress(data["business_units"],"business-units-status");
-			updateProgress(data["users"],"users-status");
-			updateProgress(data["categories"],"categories-status");
-			updateProgress(data["content_types"],"content-types-status");
-			updateProgress(data["projects"],"projects-status");
-			updateProgress(data["languages"],"languages-status");
-			updateProgress(data["content"],"content-status");
+			if ( data == false ) {
+				window.location.replace("/error");
+			} else {
+				updateProgress(data["publishers"],"publishers-status");
+				updateProgress(data["business_units"],"business-units-status");
+				updateProgress(data["users"],"users-status");
+				updateProgress(data["categories"],"categories-status");
+				updateProgress(data["content_types"],"content-types-status");
+				updateProgress(data["projects"],"projects-status");
+				updateProgress(data["languages"],"languages-status");
+				updateProgress(data["content"],"content-status");
+			}
 		},
 		error: function(data) {
 			console.debug(data);
@@ -77,9 +81,10 @@ function execute() {
 			console.log(response);
 		}
 	});
-	window.location.replace("/status");
+	window.location.href = "/status";
 }
 
 if ( window.location.pathname == "/status" || window.location.pathname == "/status/" ) {
+	getStatusCheck();
 	setInterval(getStatusCheck, 5000);
 }

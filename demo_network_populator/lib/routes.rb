@@ -24,16 +24,26 @@ post '/go/?' do
 
   data = default_data
 
-  admin = @request_payload["user"] || ""
-  key = @request_payload[":key"] || ""
+  admin = @request_payload["UserName"]
+  key = @request_payload["UserKey"]
+  server = "https://dev.cpdm.oraclecorp.com"
 
-  data[:auth_user] = Nretnil::Password.uuid
-  data[:network_id] = Nretnil::Password.uuid
+  data[:auth_user] = Nretnil::CompendiumAPI::Compendium.new(admin, key, server)
 
-  if populate(data)
-    return 200, { :success => true }.to_json
+  if auth_test(data)
+    
+    data[:network_id] = data[:auth_user].helper.network_id
+
+    data = get_current_data(data)
+
+    if populate(data)
+      return 200, { :success => true }.to_json
+    else
+      return 200, { :success => false }.to_json
+    end
   else
-    return 200, { :success => false }.to_json
+    data = false
+    return 400, { :error => "Bad Credentials" }.to_json
   end
 end
 
@@ -54,4 +64,8 @@ end
 
 get '/widget/last_couple/?' do  
   return 200, last_couple
+end
+
+get "/error" do
+  erb :error
 end
