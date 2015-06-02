@@ -14,6 +14,7 @@ set :views, "views"
 set :bind, '0.0.0.0'
 enable :reloader
 
+require './env' if File.exists?('env.rb')
 require "./lib/data"
 require "./lib/helpers"
 require "./lib/routes"

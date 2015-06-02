@@ -4,8 +4,11 @@ https://github.com/mlintern/nretnil-fake-data
 
 * To Run App:
 
-1. run bundle
-2. run bundle exec ruby app.rb
+1. Create env.rb in root dir
+  a. ENV['ROOT_USERNAME'] = 'username'
+  b. ENV['ROOT_KEY'] = 'access_key'
+2. run bundle
+3. run bundle exec ruby app.rb
 
 * Endpoints: 
 
