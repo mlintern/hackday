@@ -39,7 +39,7 @@ def languages
 end
 
 def all_categories
-    reutrn '{% for Category in Categories %}
+    return '{% for Category in Categories %}
     {% if Category.PostCount > 0 %}
         <li><a href="{{ Category.Url }}" name="{{ Category.Name }}">{{ Category.Name }} [{{Category.PostCount}}]</a></li>
     {% endif %}
@@ -47,7 +47,7 @@ def all_categories
 end
 
 def last_couple
-    reutrn '<h5>Recent Posts:</h5>
+    return '<h5>Recent Posts:</h5>
     {% for Post in Posts %}
     <div class="panel panel-danger">
         <div class="panel-heading">
