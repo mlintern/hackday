@@ -55,7 +55,7 @@ end
 def add_content(data)
   # Create New Item Here
   # data[:auth_user].content.add()
-  data[:content][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid }
+  data[:content][:items] << { :name => Nretnil::FakeData.words( rand(4) + 1 ), :id => Nretnil::Password.uuid }
   data[:content][:count] += 1
   data
 end

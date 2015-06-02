@@ -81,5 +81,5 @@ function execute() {
 }
 
 if ( window.location.pathname == "/status" || window.location.pathname == "/status/" ) {
-	setInterval(getStatusCheck, 2000);
+	setInterval(getStatusCheck, 5000);
 }
