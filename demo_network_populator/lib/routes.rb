@@ -24,6 +24,8 @@ post '/go/?' do
 
   data = default_data
 
+  data = set_max(data,@request_payload)
+
   admin = @request_payload["UserName"]
   key = @request_payload["UserKey"]
   server = "https://dev.cpdm.oraclecorp.com"

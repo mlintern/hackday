@@ -11,6 +11,10 @@
 	height: auto;
 }
 
+form hr {
+	margin-top: 5px;
+}
+
 .checkboxes {
 	padding-left: 20px;
 }

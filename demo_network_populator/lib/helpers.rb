@@ -7,7 +7,7 @@ class String
 end
 
 def auth_test(data)
-  puts content_types = data[:auth_user].content_type.list
+  content_types = data[:auth_user].content_type.list
   if !content_types.key?(:error) && content_types.length > 0
     return true
   else
@@ -15,8 +15,23 @@ def auth_test(data)
   end
 end
 
+def set_max(data,params)
+
+  data[:users][:max] = params["UserCount"].to_i || 100
+  data[:business_units][:max] = params["BUCount"].to_i || 50
+  data[:categories][:max] = params["CategoryCount"].to_i || 50
+  data[:publishers][:max] = params["PublisherCount"].to_i || 10
+  data[:content][:max] = params["ContentCount"].to_i || 1000
+  data[:languages][:max] = params["LanguageCount"].to_i || 10
+  data[:content_types][:max] = 5
+  data[:projects][:max] = params["ProjectCount"].to_i || 20
+
+  data
+end
+
 def get_current_data(data)
 
+  # Get all of the current data and set the counts.
   # publishers
   # bus
   # users
