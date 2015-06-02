@@ -33,6 +33,16 @@ function updateProgress (data, className) {
 	percentage = ( ( data["count"] / data["max"] ) * 100 );
 	$( "." + className + " .progress-bar" ).width( percentage.toString() + "%" )
 	$( "." + className + " .well" ).html("");
+	if ( percentage < 50 ) {
+		$( "." + className + " .progress-bar" ).removeClass("progress-bar-*");
+		$( "." + className + " .progress-bar" ).addClass("progress-bar-danger");
+	} else if ( percentage > 80 ) {
+		$( "." + className + " .progress-bar" ).removeClass("progress-bar-*");
+		$( "." + className + " .progress-bar" ).addClass("progress-bar-success");
+	} else {
+		$( "." + className + " .progress-bar" ).removeClass("progress-bar-*");
+		$( "." + className + " .progress-bar" ).addClass("progress-bar-warning");
+	}
 	_.each(data["items"], function (item) {
 		$( "." + className + " .well" ).append('<span class="label label-danger">' + item["name"] + '</span>')
 	})
