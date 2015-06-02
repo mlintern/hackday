@@ -34,13 +34,13 @@ function updateProgress (data, className) {
 	$( "." + className + " .progress-bar" ).width( percentage.toString() + "%" )
 	$( "." + className + " .well" ).html("");
 	if ( percentage < 50 ) {
-		$( "." + className + " .progress-bar" ).removeClass("progress-bar-*");
 		$( "." + className + " .progress-bar" ).addClass("progress-bar-danger");
-	} else if ( percentage > 80 ) {
-		$( "." + className + " .progress-bar" ).removeClass("progress-bar-*");
+	} else if ( percentage > 90 ) {
+		$( "." + className + " .progress-bar" ).removeClass("progress-bar-warning");
+		$( "." + className + " .progress-bar" ).removeClass("progress-bar-danger");
 		$( "." + className + " .progress-bar" ).addClass("progress-bar-success");
 	} else {
-		$( "." + className + " .progress-bar" ).removeClass("progress-bar-*");
+		$( "." + className + " .progress-bar" ).removeClass("progress-bar-danger");
 		$( "." + className + " .progress-bar" ).addClass("progress-bar-warning");
 	}
 	_.each(data["items"], function (item) {
