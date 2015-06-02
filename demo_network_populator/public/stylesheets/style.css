@@ -46,28 +46,27 @@ form hr {
 /* custom checkboxes */
 
 input[type=checkbox] {
-position: relative;
+	position: relative;
 }
 
 label>input[type=checkbox]:before {
-position: absolute;
-background-color: #FFFFFF;
-height: 100%;
-width: 100%;
-font-family: FontAwesome;
-display: inline-block;
-content:"\f204";
+	position: absolute;
+	background-color: #FFFFFF;
+	height: 100%;
+	width: 100%;
+	font-family: FontAwesome;
+	display: inline-block;
+	content:"\f204";
 }
 
 label>input[type=checkbox]:checked:before {
-font-family: FontAwesome;
-display: inline-block;
-content:"\f205";
-color: green;
+	font-family: FontAwesome;
+	display: inline-block;
+	content:"\f205";
+	color: green;
 }
 
 label>input[type=checkbox]:disabled {
-opacity: 0.5;
+	opacity: 0.5;
 }
-
 
