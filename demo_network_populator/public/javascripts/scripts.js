@@ -22,10 +22,20 @@ $('.js-trigger').on("click", function (event) {
 	event.preventDefault();
 });
 
+$(".expander").on("click", function () {
+	$(this).parent().find(".well").toggle();
+	$(this).toggleClass("fa-plus");
+	$(this).toggleClass("fa-minus");
+})
+
 // update progress bar
 function updateProgress (data, className) {
 	percentage = ( ( data["count"] / data["max"] ) * 100 );
 	$( "." + className + " .progress-bar" ).width( percentage.toString() + "%" )
+	$( "." + className + " .well" ).html("");
+	_.each(data["items"], function (item) {
+		$( "." + className + " .well" ).append('<span class="label label-danger">' + item["name"] + '</span>')
+	})
 }
 
 // check on population status

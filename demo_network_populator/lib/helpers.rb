@@ -6,8 +6,23 @@ class String
   end
 end
 
+def get_current_data(data)
+
+  # publishers
+  # bus
+  # users
+  # content_types
+  # languages
+  # add_projects
+  # add_categories
+  # content
+
+  data
+end
+
 def add_user(data)
   # Create New Item Here
+  # data[:auth_user].user.add()
   data[:users][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid }
   data[:users][:count] += 1
   data
@@ -15,6 +30,7 @@ end
 
 def add_bu(data)
   # Create New Item Here
+  # data[:auth_user].bu.add()
   data[:business_units][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid }
   data[:business_units][:count] += 1
   data
@@ -22,6 +38,7 @@ end
 
 def add_category(data)
   # Create New Item Here
+  # data[:auth_user].category.add()
   data[:categories][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid }
   data[:categories][:count] += 1
   data
@@ -29,6 +46,7 @@ end
 
 def add_publisher(data)
   # Create New Item Here
+  # data[:auth_user].publisher.add()
   data[:publishers][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid }
   data[:publishers][:count] += 1
   data
@@ -36,6 +54,7 @@ end
 
 def add_content(data)
   # Create New Item Here
+  # data[:auth_user].content.add()
   data[:content][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid }
   data[:content][:count] += 1
   data
@@ -43,6 +62,7 @@ end
 
 def add_language(data)
   # Create New Item Here
+  # data[:auth_user].language.add()
   data[:languages][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid }
   data[:languages][:count] += 1
   data
@@ -50,6 +70,7 @@ end
 
 def add_content_type(data)
   # Create New Item Here
+  # data[:auth_user].content_type.add()
   data[:content_types][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid, :type => "rich_text" }
   data[:content_types][:count] += 1
   data
@@ -57,6 +78,7 @@ end
 
 def add_project(data)
   # Create New Item Here
+  # data[:auth_user].project.add()
   data[:projects][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid }
   data[:projects][:count] += 1
   data
@@ -103,9 +125,11 @@ end
 
 def add_template (compendium)
 
+  # Check for template and only create tmeplate if there is not one.
+
   # New Template:
 
-  # curl -k https://ml2admin:wIu4e2zR9fNSi2YdBX2tJ8bDGjHQwUVJCqjGHA7n@dev.cpdm.oraclecorp.com/api/templates/ -d '{"network":"dbd66dde-eb86-4842-b522-7999c98f18ce","name":"Template 1"}'
+  # curl -k https://ml2admin:wIu4e2zR9fNSi2YdBX2tJ8bDGjHQwUVJCqjGHA7n@dev.cpdm.oraclecorp.com/api/templates/ -d '{"network":"dbd66dde-eb86-4842-b522-7999c98f18ce","name":"Network Populator Template"}'
 
   # New Template File using id from previous call:
 

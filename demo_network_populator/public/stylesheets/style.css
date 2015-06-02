@@ -19,3 +19,21 @@
 	margin-top: 80px;
 	margin-bottom: 50px;
 }
+
+.progress {
+	clear: both;
+}
+
+.status .well {
+	display: none;
+}
+
+.well .label {
+  display: inline-block;
+  margin: 0 2px;
+}
+
+.expander {
+	margin-top: 25px;
+	margin-right: 15px;
+}

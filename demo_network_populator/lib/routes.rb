@@ -1,4 +1,4 @@
-data = default_data
+data = {}
 
 before do
   if request.body.size > 0
@@ -21,6 +21,9 @@ end
 
 post '/go/?' do
   puts @request_payload
+
+  data = default_data
+
   admin = @request_payload["user"] || ""
   key = @request_payload[":key"] || ""
 
