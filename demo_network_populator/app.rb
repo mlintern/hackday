@@ -9,13 +9,12 @@ require "nretnil-fake-data"
 require "nretnil-password"
 
 configure do
-  enable :sessions
+  enable :sessions, :reloader
   set :session_secret, "T1syUdT5jFayI8L77OMTRrSFS"
   set :public_folder, "public"
   set :port, "8888"
   set :views, "views"
   set :bind, "0.0.0.0"
-  enable :reloader
 end
 
 require "./env" if File.exists?("env.rb")
