@@ -1,5 +1,3 @@
-data = {}
-
 before do
   if request.body.size > 0
     request.body.rewind
@@ -8,7 +6,6 @@ before do
 end
 
 get '/' do
-  puts session[:params].inspect
   erb :index, :locals => { :params => session[:params] || {} }
 end
 
@@ -17,37 +14,36 @@ get '/status/?' do
 end
 
 get '/status/check/?' do
-  return 200, data.to_json
+  return 200, session[:data].to_json
 end
 
 post '/go/?' do
   puts @request_payload
   session[:params] = @request_payload
-  puts session.inspect
 
-  data = default_data
+  session[:data] = default_data
 
-  data = set_max(data,@request_payload)
+  session[:data] = set_max(session[:data],@request_payload)
 
   admin = @request_payload["UserName"]
   key = @request_payload["UserKey"]
   server = "https://dev.cpdm.oraclecorp.com"
 
-  data[:auth_user] = Nretnil::CompendiumAPI::Compendium.new(admin, key, server)
+  session[:data][:auth_user] = Nretnil::CompendiumAPI::Compendium.new(admin, key, server)
 
-  if auth_test(data)
+  if auth_test(session[:data])
     
-    data[:network_id] = data[:auth_user].helper.network_id
+    session[:data][:network_id] = session[:data][:auth_user].helper.network_id
 
-    data = get_current_data(data)
+    session[:data] = get_current_data(session[:data])
 
-    if populate(data)
+    if populate(session[:data])
       return 200, { :success => true }.to_json
     else
       return 200, { :success => false }.to_json
     end
   else
-    data = false
+    session[:data] = false
     return 400, { :error => "Bad Credentials" }.to_json
   end
 end
