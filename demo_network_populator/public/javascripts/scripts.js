@@ -58,6 +58,7 @@ function getStatusCheck () {
 			if ( data == false ) {
 				window.location.replace("/error");
 			} else {
+				$(".loading").hide();
 				updateProgress(data["publishers"],"publishers-status");
 				updateProgress(data["business_units"],"business-units-status");
 				updateProgress(data["users"],"users-status");
@@ -95,6 +96,5 @@ function execute() {
 }
 
 if ( window.location.pathname == "/status" || window.location.pathname == "/status/" ) {
-	getStatusCheck();
 	setInterval(getStatusCheck, 5000);
 }
