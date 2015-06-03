@@ -95,6 +95,10 @@ function execute() {
 	window.location.href = "/status";
 }
 
+function playToggle(){
+  document.getElementById('toggle').play();
+}
+
 if ( window.location.pathname == "/status" || window.location.pathname == "/status/" ) {
 	setInterval(getStatusCheck, 5000);
 }
