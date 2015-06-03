@@ -1,5 +1,4 @@
 data = {}
-the_params = {}
 
 before do
   if request.body.size > 0
@@ -9,7 +8,8 @@ before do
 end
 
 get '/' do
-  erb :index, :locals => { :params => the_params }
+  puts session[:params].inspect
+  erb :index, :locals => { :params => session[:params] || {} }
 end
 
 get '/status/?' do
@@ -22,7 +22,8 @@ end
 
 post '/go/?' do
   puts @request_payload
-  the_params = @request_payload
+  session[:params] = @request_payload
+  puts session.inspect
 
   data = default_data
 
@@ -42,7 +43,6 @@ post '/go/?' do
 
     if populate(data)
       return 200, { :success => true }.to_json
-      the_params = {}
     else
       return 200, { :success => false }.to_json
     end
