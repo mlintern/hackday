@@ -58,9 +58,9 @@
 						<div class="col-sm-6">
 							<div class="checkbox"><label><input type="checkbox" disabled="disabled" checked="checked"/> Text Post</label></div>
 							<div class="checkbox"><label><input type="checkbox" disabled="disabled" checked="checked"/> Landing Page</label></div>
-							<div class="checkbox"><label><input type="checkbox" name="ImagePost" onclick="playToggle()"/> Image Post</label></div>
-							<div class="checkbox"><label><input type="checkbox" name="VideoPost" onclick="playToggle()"/> Video Post</label></div>
-							<div class="checkbox"><label><input type="checkbox" name="FilePost" onclick="playToggle()"/> File Upload</label></div>
+							<div class="checkbox"><label><input type="checkbox" name="ImagePost" onclick="playToggle()" <%= checked="checked" if params["ImagePost"] == 'on' %>/> Image Post</label></div>
+							<div class="checkbox"><label><input type="checkbox" name="VideoPost" onclick="playToggle()" <%= checked="checked" if params["VideoPost"] == 'on' %>/> Video Post</label></div>
+							<div class="checkbox"><label><input type="checkbox" name="FilePost" onclick="playToggle()" <%= checked="checked" if params["FilePost"] == 'on' %>/> File Upload</label></div>
 						</div>
 				</div>
 			</div>

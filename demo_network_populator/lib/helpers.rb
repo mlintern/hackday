@@ -171,7 +171,25 @@ def add_content(data)
   end
   puts body
   puts options
-  asset = data[:auth_user].content.add(user[:id], title, body, content_type[:id], options)
+  if data[:root_user].nil?
+    asset = data[:auth_user].content.add(user[:id], title, body, content_type[:id], options)
+  else
+    approval_options = { 
+      :import_live => true,
+      :import_from => "Network Populator",
+      :network_id => data[:network_id],
+      :publish_date => pub_date,
+      :post_publication => {
+        :remote_id => nil,
+        :publish_stamp => pub_date,
+        :remote_url => nil,
+        :remote_state => nil,
+        :state => 'published'
+      }
+    }
+    options = options.merge(approval_options)
+    asset = data[:root_user].content.add(user[:id], title, body, content_type[:id], options)
+  end
   data[:content][:items] << { :name => title, :id => asset["id"] }
   data[:content][:count] += 1
   data
@@ -190,7 +208,7 @@ def add_template (data)
 
   templates = data[:auth_user].get("/api/templates", { :network_id => data[:network_id] } )
   unless templates.count > 0
-    result = data[:auth_user].post("/api/templates", { :network => "dbd66dde-eb86-4842-b522-7999c98f18ce", :name => "Network Populator Template" }.to_json )
+    result = data[:auth_user].post("/api/templates", { :network => data[:network_id], :name => "Network Populator Template" }.to_json )
     template_id = result["id"]
 
 
@@ -270,19 +288,19 @@ def populate(data)
     data[:content_types][:count] += 1
   end
 
-  if data[:params]["ImagePost"] == "on" && !image_type
+  if ( data[:params]["ImagePost"] == "on" && !image_type )
     ct = data[:auth_user].content_type.add("Image NP", { :primary_editor => "image", :config => { :show_description => true } } )
     data[:content_types][:items] << { :name => "Image NP", :id => ct["id"], :type => "image" }
     data[:content_types][:count] += 1
   end
 
-  if data[:params]["VideoPost"] == "on" && !video_type
+  if ( data[:params]["VideoPost"] == "on" && !video_type )
     ct = data[:auth_user].content_type.add("Video NP", { :primary_editor => "video", :config => { :show_description => true } } )
     data[:content_types][:items] << { :name => "Video NP", :id => ct["id"], :type => "video" }
     data[:content_types][:count] += 1
   end
 
-  if data[:params]["FilePost"] == "on" && !file_type
+  if ( data[:params]["FilePost"] == "on" && !file_type )
     ct = data[:auth_user].content_type.add("File NP", { :primary_editor => "file", :config => { :show_description => true } } )
     data[:content_types][:items] << { :name => "File NP", :id => ct["id"], :type => "file" }
     data[:content_types][:count] += 1

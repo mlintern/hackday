@@ -36,6 +36,11 @@ post '/go/?' do
 
   data[:auth_user] = Nretnil::CompendiumAPI::Compendium.new(admin, key, server)
 
+  if !ENV['ROOT_USERNAME'].nil? && !ENV['ROOT_KEY'].nil?
+    puts "Creating Root User"
+    data[:root_user] = Nretnil::CompendiumAPI::Compendium.new(ENV['ROOT_USERNAME'], ENV['ROOT_KEY'], server)
+  end
+
   if auth_test(data)
     
     data[:network_id] = data[:auth_user].helper.network_id

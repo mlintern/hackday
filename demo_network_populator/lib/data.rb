@@ -9,6 +9,7 @@ def default_data
     :network_id => nil,
     :projects => { :count => 0, :items => [], :max => 20 },
     :publishers => { :count => 0, :items => [], :max => 10 },
+    :root_user => nil,
     :users => { :count => 0, :items => [], :max => 100 }
   }
 end
