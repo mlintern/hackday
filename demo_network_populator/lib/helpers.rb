@@ -34,11 +34,11 @@ def get_current_data(data)
   # Get all of the current data and set the counts.
   # publishers
 
-  # pubs = data[:auth_user].content.publisher.list
-  # pubs.each do |pub|
-  #   data[:publishers][:items] << { :name => pub["tilte"], :id => pub["id"]}
-  #   data[:publishers][:count] += 1
-  # end 
+  pubs = data[:auth_user].publisher.list
+  pubs.each do |pub|
+    data[:publishers][:items] << { :name => pub["publisher_name"], :id => pub["id"] }
+    data[:publishers][:count] += 1
+  end 
 
   # bus
   # users
@@ -120,9 +120,9 @@ def add_template (compendium)
   # Check for template and only create tmeplate if there is not one.
 
   # curl -k https://ml2admin:wIu4e2zR9fNSi2YdBX2tJ8bDGjHQwUVJCqjGHA7n@dev.cpdm.oraclecorp.com/api/templates?network_id=dbd66dde-eb86-4842-b522-7999c98f18ce
-  templates = compendium.get("https://dev.cpdm.oraclecorp.com/api/templates?network_id=dbd66dde-eb86-4842-b522-7999c98f18ce")
+  # templates = compendium.get("https://dev.cpdm.oraclecorp.com/api/templates?network_id=dbd66dde-eb86-4842-b522-7999c98f18ce")
 
-  unless templates.count > 0
+  # unless templates.count > 0
 
     # New Template:
 
@@ -149,13 +149,13 @@ def add_template (compendium)
 
     # curl -k https://ml2admin:wIu4e2zR9fNSi2YdBX2tJ8bDGjHQwUVJCqjGHA7n@dev.cpdm.oraclecorp.com/api/templates/<tempalte_id>/widgets -d '{"widget_type":"ContentList","widget_name":"Last Couple","properties":{"limit":"2"}}'
     # curl -k https://ml2admin:wIu4e2zR9fNSi2YdBX2tJ8bDGjHQwUVJCqjGHA7n@dev.cpdm.oraclecorp.com/api/template_files/<widget_Tempalte_file> -d '{"content":"<div>This is an API Test</div>"}' -XPUT
-  end
+  # end
 
 end
 
 def populate(data)
 
-  add_template( data[:auth_user] )
+  # add_template( data[:auth_user] )
 
   (data[:publishers][:count]...data[:publishers][:max]).each do |i|
     data = add_publisher(data)
