@@ -53,21 +53,16 @@ def get_current_data(data)
   # get networks users
   users = data[:auth_user].user.list
   users.each do |user|
-    
-    roles = user["roles"]
-    roles.each do |role|
-      role_type = role["name"]
-      
-      if role_type == "Author"
-        data[:users][:items] << { :name => user["firstname"] + " " + user["lastname"], :id => user["UserId"] }
+    user["roles"].each do |role|
+      if role["name"] == "Author"
+        data[:users][:items] << { :name => user["firstname"] + " " + user["lastname"], :id => user["user_id"] }
         data[:users][:count] += 1
       end
     end
   end 
 
   # get networks categories
-  categories = data[:auth_user].category.list({:NetworkId => data[:network_id]})
-  
+  categories = data[:auth_user].category.list({:NetworkId => data[:network_id], :SearchCriteria => { :BlogType => "category" }.to_json } )
   categories["Success"].each do |category|
     data[:categories][:items] << { :name => category["Title"], :id => category["BlogId"] }
     data[:categories][:count] += 1
@@ -101,7 +96,6 @@ def get_current_data(data)
 
   # get networks content
   content = data[:auth_user].content.list({:NetworkId => data[:network_id]})
-  
   content["content"].each do |content|
     data[:content][:items] << { :name => content["title"], :id => content["id"] }
     data[:content][:count] += 1
@@ -119,8 +113,10 @@ def add_user(data)
   lastname = Nretnil::FakeData.surname
   username = (firstname[0,1] + lastname).downcase
   email = firstname+"."+lastname+"@"+Nretnil::FakeData.word+".com"
-  puts user = data[:auth_user].user.add(username,firstname,lastname,email)
-  data[:users][:items] << { :name => firstname + " " + lastname, :id => user["Success"]["UserId"] }
+  user = data[:auth_user].user.add(username,firstname,lastname,email)
+  user_id = user["Success"]["UserId"]
+  result = data[:auth_user].role.assign(user_id,[data[:author_role_id]])
+  data[:users][:items] << { :name => firstname + " " + lastname, :id => user_id }
   data[:users][:count] += 1
   data
 end
@@ -131,7 +127,7 @@ def add_bu(data)
       pub_ids << pub["id"]
   end
   name = Nretnil::FakeData.words(2)
-  puts bu = data[:auth_user].bu.add(name,pub_ids)
+  bu = data[:auth_user].bu.add(name,pub_ids)
   data[:business_units][:items] << { :name => name, :id => bu["business_unit_id"] }
   data[:business_units][:count] += 1
   data
@@ -157,10 +153,26 @@ def add_content(data)
   puts content_type = data[:content_types][:items][rand(data[:content_types][:count])]
   puts business_unit = data[:business_units][:items][rand(data[:business_units][:count])]
   puts publisher = data[:publishers][:items][rand(data[:publishers][:count])]
-  title = Nretnil::FakeData.words( rand(4) + 1 )
-  # Create New Item Here
-  # data[:auth_user].content.add()
-  data[:content][:items] << { :name => title, :id => Nretnil::Password.uuid }
+  puts user = data[:users][:items][rand(data[:users][:count])]
+  puts categories = [ data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id] ]
+  puts title = Nretnil::FakeData.words( rand(4) + 1 )
+  puts slug = data[:auth_user].helper.slugify(title)
+  puts pub_date = Time.now
+  body = '<img  style="width: 30%; height: auto; float: left;" src="' + images[rand(images.count)] + '"/><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p><img  style="width: 30%; height: auto; float: right;" src="' + images[rand(images.count)] + '"/><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p>'
+  options = { :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => categories, :publisher_id => publisher[:id] }
+  case content_type[:type]
+  when "image", "file"
+    body = '<p>' + paragraph + '</p>'
+    options = { :primary_attachment => { :url => images[rand(images.count)] }, :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => categories, :publisher_id => publisher[:id] }
+  when "video"
+    body = '<p>' + paragraph + '</p>'
+    options = { :primary_attachment => { :url => videos[rand(videos.count)] }, :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => categories, :publisher_id => publisher[:id] }
+  else
+  end
+  puts body
+  puts options
+  asset = data[:auth_user].content.add(user[:id], title, body, content_type[:id], options)
+  data[:content][:items] << { :name => title, :id => asset["id"] }
   data[:content][:count] += 1
   data
 end
@@ -211,6 +223,13 @@ def populate(data)
 
   (data[:business_units][:count]...data[:business_units][:max]).each do |i|
     data = add_bu(data)
+  end
+
+  roles = data[:auth_user].role.list
+  roles.each do |role|
+    if role["name"] == "Author"
+      data[:author_role_id] = role["id"]
+    end
   end
 
   (data[:users][:count]...data[:users][:max]).each do |i|
@@ -269,14 +288,14 @@ def populate(data)
     data[:content_types][:count] += 1
   end
 
+  (data[:projects][:count]...data[:projects][:max]).each do |i|
+    data = add_project(data)
+  end
+
   (data[:languages][:count]...data[:languages][:max]).each do |i|
     lang = data[:auth_user].language.add(languages[i][:name],languages[i][:code])
     data[:languages][:items] << { :name => languages[i][:name], :id => lang["id"] }
     data[:languages][:count] += 1
-  end
-
-  (data[:projects][:count]...data[:projects][:max]).each do |i|
-    data = add_project(data)
   end
 
   (data[:content][:count]...data[:content][:max]).each do |i|
