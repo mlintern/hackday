@@ -9,8 +9,8 @@ require "nretnil-fake-data"
 require "nretnil-password"
 
 configure do
-  enable :sessions, :reloader
-  set :session_secret, "T1syUdT5jFayI8L77OMTRrSFS"
+  enable :reloader #, :sessions
+  # set :session_secret, "T1syUdT5jFayI8L77OMTRrSFS"
   set :public_folder, "public"
   set :port, "8888"
   set :views, "views"

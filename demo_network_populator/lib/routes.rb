@@ -2,7 +2,7 @@ data = nil
 the_params = nil
 
 before do
-  puts session.inspect
+  # puts session.inspect
   if request.body.size > 0
     request.body.rewind
     @request_payload = JSON.parse request.body.read
@@ -23,9 +23,10 @@ end
 
 post '/go/?' do
   puts @request_payload
-  the_params = session[:params] = @request_payload
 
   data = session[:data] = default_data
+
+  the_params = data[:params] = @request_payload
 
   data = session[:data] = set_max(data,@request_payload)
 
