@@ -52,33 +52,46 @@ def get_current_data(data)
 end
 
 def add_user(data)
-  # Create New Item Here
-  # data[:auth_user].user.add()
-  data[:users][:items] << { :name => Nretnil::FakeData.fullname, :id => Nretnil::Password.uuid }
+  bu_ids = []
+  result = data[:auth_user].bu.list
+  result.each do |bu|
+      bu_ids << bu["id"]
+  end
+  firstname = Nretnil::FakeData.name
+  lastname = Nretnil::FakeData.surname
+  username = (firstname[0,1] + lastname).downcase
+  email = firstname+"."+lastname+"@"+Nretnil::FakeData.word+".com"
+  puts user = data[:auth_user].user.add(username,firstname,lastname,email)
+  data[:users][:items] << { :name => firstname + " " + lastname, :id => user["Success"]["UserId"] }
   data[:users][:count] += 1
   data
 end
 
 def add_bu(data)
-  # Create New Item Here
-  # data[:auth_user].bu.add()
-  data[:business_units][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid }
+  pub_ids = []
+  result = data[:auth_user].publisher.list
+  result.each do |pub|
+      pub_ids << pub["id"]
+  end
+  name = Nretnil::FakeData.words(2)
+  bu = data[:auth_user].bu.add(name,pub_ids)
+  data[:business_units][:items] << { :name => name, :id => bu["business_unit_id"] }
   data[:business_units][:count] += 1
   data
 end
 
 def add_category(data)
-  # Create New Item Here
-  # data[:auth_user].category.add()
-  data[:categories][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid }
+  name = Nretnil::FakeData.word
+  category = data[:auth_user].category.add(name,"category")
+  data[:categories][:items] << { :name => name, :id => category["Success"] }
   data[:categories][:count] += 1
   data
 end
 
 def add_publisher(data)
-  # Create New Item Here
-  # data[:auth_user].publisher.add()
-  data[:publishers][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid }
+  name = Nretnil::FakeData.word
+  pub = data[:auth_user].publisher.add(name,name + ".compendiumblog.com")
+  data[:publishers][:items] << { :name => name, :id => pub["id"] }
   data[:publishers][:count] += 1
   data
 end
@@ -88,14 +101,6 @@ def add_content(data)
   # data[:auth_user].content.add()
   data[:content][:items] << { :name => Nretnil::FakeData.words( rand(4) + 1 ), :id => Nretnil::Password.uuid }
   data[:content][:count] += 1
-  data
-end
-
-def add_language(data)
-  # Create New Item Here
-  # data[:auth_user].language.add()
-  data[:languages][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid }
-  data[:languages][:count] += 1
   data
 end
 
@@ -156,20 +161,22 @@ def populate(data)
     data = add_user(data)
   end
 
+  (data[:categories][:count]...data[:categories][:max]).each do |i|
+    data = add_category(data)
+  end
+
   (data[:content_types][:count]...data[:content_types][:max]).each do |i|
     data = add_content_type(data)
   end
 
   (data[:languages][:count]...data[:languages][:max]).each do |i|
-    data = add_language(data)
+    lang = data[:auth_user].language.add(languages[i][:name],languages[i][:code])
+    data[:languages][:items] << { :name => languages[i][:name], :id => lang["id"] }
+    data[:languages][:count] += 1
   end
 
   (data[:projects][:count]...data[:projects][:max]).each do |i|
     data = add_project(data)
-  end
-
-  (data[:categories][:count]...data[:categories][:max]).each do |i|
-    data = add_category(data)
   end
 
   (data[:content][:count]...data[:content][:max]).each do |i|
