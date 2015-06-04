@@ -23,9 +23,10 @@ end
 
 post '/go/?' do
   puts @request_payload
-  the_params = session[:params] = @request_payload
 
   data = session[:data] = default_data
+
+  the_params = data[:params] = @request_payload
 
   data = session[:data] = set_max(data,@request_payload)
 

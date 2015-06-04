@@ -23,7 +23,10 @@ def set_max(data,params)
   data[:publishers][:max] = params["PublisherCount"].to_i || 10
   data[:content][:max] = params["ContentCount"].to_i || 1000
   data[:languages][:max] = params["LanguageCount"].to_i || 10
-  data[:content_types][:max] = 5
+  data[:content_types][:max] = 2
+  data[:content_types][:max] += 1 if params["ImagePost"] == "on"
+  data[:content_types][:max] += 1 if params["VideoPost"] == "on"
+  data[:content_types][:max] += 1 if params["FilePost"] == "on"
   data[:projects][:max] = params["ProjectCount"].to_i || 20
 
   data
@@ -53,8 +56,7 @@ end
 
 def add_user(data)
   bu_ids = []
-  result = data[:auth_user].bu.list
-  result.each do |bu|
+  data[:business_units][:items].each do |bu|
       bu_ids << bu["id"]
   end
   firstname = Nretnil::FakeData.name
@@ -69,12 +71,11 @@ end
 
 def add_bu(data)
   pub_ids = []
-  result = data[:auth_user].publisher.list
-  result.each do |pub|
+  data[:publishers][:items].each do |pub|
       pub_ids << pub["id"]
   end
   name = Nretnil::FakeData.words(2)
-  bu = data[:auth_user].bu.add(name,pub_ids)
+  puts bu = data[:auth_user].bu.add(name,pub_ids)
   data[:business_units][:items] << { :name => name, :id => bu["business_unit_id"] }
   data[:business_units][:count] += 1
   data
@@ -97,6 +98,9 @@ def add_publisher(data)
 end
 
 def add_content(data)
+  puts content_type = data[:content_types][:items][rand(data[:content_types][:count])]
+  puts business_unit = data[:business_units][:items][rand(data[:business_units][:count])]
+  puts publisher = data[:publishers][:items][rand(data[:publishers][:count])]
   # Create New Item Here
   # data[:auth_user].content.add()
   data[:content][:items] << { :name => Nretnil::FakeData.words( rand(4) + 1 ), :id => Nretnil::Password.uuid }
@@ -104,18 +108,11 @@ def add_content(data)
   data
 end
 
-def add_content_type(data)
-  # Create New Item Here
-  # data[:auth_user].content_type.add()
-  data[:content_types][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid, :type => "rich_text" }
-  data[:content_types][:count] += 1
-  data
-end
-
 def add_project(data)
-  # Create New Item Here
-  # data[:auth_user].project.add()
-  data[:projects][:items] << { :name => Nretnil::FakeData.word, :id => Nretnil::Password.uuid }
+  name = Nretnil::FakeData.word
+  color = Nretnil::FakeData.color[:hex]
+  project = data[:auth_user].project.add(name,{ :color => color })
+  data[:projects][:items] << { :name => name, :id => project[:id] }
   data[:projects][:count] += 1
   data
 end
@@ -165,8 +162,52 @@ def populate(data)
     data = add_category(data)
   end
 
-  (data[:content_types][:count]...data[:content_types][:max]).each do |i|
-    data = add_content_type(data)
+  page_type = text_type = image_type = file_type = video_type = false
+
+  data[:content_types][:items].each do |ct|
+    case ct[:type]
+      when "rich_text"
+        text_type = true
+      when "page"
+        page_type = true
+      when "video"
+        video_type = true
+      when "image"
+        image_type = true
+      when "file"
+        file_type = true
+      else
+      end
+  end
+
+  if !text_type
+    ct = data[:auth_user].content_type.add("Text NP", { :primary_editor => "rich_text", :config => { :show_description => true } } )
+    data[:content_types][:items] << { :name => "Text NP", :id => ct["id", :type => "rich_text" }
+    data[:content_types][:count] += 1
+  end
+
+  if !page_type
+    ct = data[:auth_user].content_type.add("Page NP", { :primary_editor => "rich_text", :config => { :show_description => true }, :landing_page => true } )
+    data[:content_types][:items] << { :name => "Page NP", :id => ct["id", :type => "page" }
+    data[:content_types][:count] += 1
+  end
+
+  if data[:params]["ImagePost"] == "on" && !image_type
+    ct = data[:auth_user].content_type.add("Image NP", { :primary_editor => "image", :config => { :show_description => true } } )
+    data[:content_types][:items] << { :name => "Image NP", :id => ct["id"], :type => "image" }
+    data[:content_types][:count] += 1
+  end
+
+  if data[:params]["VideoPost"] == "on" && !video_type
+    ct = data[:auth_user].content_type.add("Video NP", { :primary_editor => "video", :config => { :show_description => true } } )
+    data[:content_types][:items] << { :name => "Video NP", :id => ct["id"], :type => "video" }
+    data[:content_types][:count] += 1
+  end
+
+  if data[:params]["FilePost"] == "on" && !file_type
+    ct = data[:auth_user].content_type.add("File NP", { :primary_editor => "file", :config => { :show_description => true } } )
+    data[:content_types][:items] << { :name => "File NP", :id => ct["id", :type => "file" }
+    data[:content_types][:count] += 1
   end
 
   (data[:languages][:count]...data[:languages][:max]).each do |i|
