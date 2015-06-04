@@ -27,6 +27,15 @@ def images
     "//cdn.app.compendium.com/uploads/user/12a67f85-8b31-465a-93a1-99f578338c75/7b68ecaf-94ec-4ea6-b549-2a99e9c6123f/Image/c884fec0b33888edba0ed2afbc2d6a27/content.jpg"
   ]
 end
+def videos
+  return [
+    '<iframe width="560" height="315" src="https://www.youtube.com/embed/kO7RDEnCAgk" frameborder="0" allowfullscreen></iframe>',
+    '<iframe width="560" height="315" src="https://www.youtube.com/embed/mjZFGugwkyc?list=PLo0PbWmWAecGwwFZQC8s-7Pzxd01l1p1Z" frameborder="0" allowfullscreen></iframe>',
+    '<iframe width="560" height="315" src="https://www.youtube.com/embed/dFOyVFimkXw?list=PL7NYXEutUrvKfTOMPRQPcQNwwTPiSa0yX" frameborder="0" allowfullscreen></iframe>',
+    '<iframe width="560" height="315" src="https://www.youtube.com/embed/TUEvClDvaTo?list=PL7NYXEutUrvKfTOMPRQPcQNwwTPiSa0yX" frameborder="0" allowfullscreen></iframe>',
+    '<iframe width="560" height="315" src="https://www.youtube.com/embed/bb9Xr7DAw6s?list=PL7NYXEutUrvKjQ7KMJZeg_orEoH9tA9-u" frameborder="0" allowfullscreen></iframe>'
+  ]
+end
 
 def paragraph
   return "Sed viverra augue tellus nulla sollicitudin scelerisque, scelerisque rutrum mauris pharetra tempor donec arcu, ante nunc ipsum donec nec dis vitae, ipsum tempor. Vel volutpat, sed vel imperdiet, vehicula auctor purus in, eu non tempor amet euismod ligula dictumst, massa orci posuere cras varius suscipit ac. Erat dui. Vitae purus suspendisse facilisi vivamus, ligula placerat pede lorem amet, sociosqu mauris, hendrerit mollis nulla in, sed at ante imperdiet. Nulla nonummy, purus pede at id sem morbi, pariatur aliquet massa donec suspendisse mi, integer malesuada velit aenean."
