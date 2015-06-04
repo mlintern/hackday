@@ -2,7 +2,7 @@ data = nil
 the_params = nil
 
 before do
-  puts session.inspect
+  # puts session.inspect
   if request.body.size > 0
     request.body.rewind
     @request_payload = JSON.parse request.body.read

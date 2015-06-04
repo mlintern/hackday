@@ -115,47 +115,34 @@ def add_project(data)
   data
 end
 
-def add_template (compendium)
+def add_template (data)
 
-  # Check for template and only create tmeplate if there is not one.
-
-  # curl -k https://ml2admin:wIu4e2zR9fNSi2YdBX2tJ8bDGjHQwUVJCqjGHA7n@dev.cpdm.oraclecorp.com/api/templates?network_id=dbd66dde-eb86-4842-b522-7999c98f18ce
-  templates = compendium.get("https://dev.cpdm.oraclecorp.com/api/templates?network_id=dbd66dde-eb86-4842-b522-7999c98f18ce")
-
+  templates = data[:auth_user].get("/api/templates", { :network_id => data[:network_id] } )
   unless templates.count > 0
+    result = data[:auth_user].post("/api/templates", { :network => "dbd66dde-eb86-4842-b522-7999c98f18ce", :name => "Network Populator Template" }.to_json )
+    template_id = result["id"]
 
-    # New Template:
+    result = data[:auth_user].post("/api/templates/"+template_id+"/template_files", { :name => "default.tpl" }.to_json )
+    default_id = result["id"]
 
-    # curl -k https://ml2admin:wIu4e2zR9fNSi2YdBX2tJ8bDGjHQwUVJCqjGHA7n@dev.cpdm.oraclecorp.com/api/templates/ -d '{"network":"dbd66dde-eb86-4842-b522-7999c98f18ce","name":"Network Populator Template"}'
+    result = data[:auth_user].put("/api/template_files/"+default_id, { :content => default_template }.to_json )
 
-    # New Template File using id from previous call:
+    result = data[:auth_user].post("/api/templates/"+template_id+"/widgets", { :widget_type => "AllCategories", :widget_name => "Categories" }.to_json )
+    categories_id = result["template_file"]["id"]
+    result = data[:auth_user].put("/api/template_files/"+categories_id, { :content => all_categories }.to_json )
 
-    # curl -k https://ml2admin:wIu4e2zR9fNSi2YdBX2tJ8bDGjHQwUVJCqjGHA7n@dev.cpdm.oraclecorp.com/api/templates/<template_id>/template_files -d '{"name":"default.tpl"}'
+    result = data[:auth_user].post("/api/templates/"+template_id+"/widgets", { :widget_type => "ContentList", :widget_name => "Last Couple", :properties => { :limit => 2 } }.to_json )
+    last_couple_id = result["template_file"]["id"]
+    result = data[:auth_user].put("/api/template_files/"+last_couple_id, { :content => last_couple }.to_json )
 
-    # Update Temaplate file using id from previous call:
-
-    # curl -k https://ml2admin:wIu4e2zR9fNSi2YdBX2tJ8bDGjHQwUVJCqjGHA7n@dev.cpdm.oraclecorp.com/api/template_files/<template_file_id> -d '{"content":"<div>This is an API Test</div>"}' -XPUT
-
-    # Publish Template using template id:
-
-    # curl -k https://ml2admin:wIu4e2zR9fNSi2YdBX2tJ8bDGjHQwUVJCqjGHA7n@dev.cpdm.oraclecorp.com/api/templates/<template_id>/revisions -d '{"comment":"publishing”}'
-
-    # Create AllCategoriesWidget
-
-    # curl -k https://ml2admin:wIu4e2zR9fNSi2YdBX2tJ8bDGjHQwUVJCqjGHA7n@dev.cpdm.oraclecorp.com/api/templates/<template_id/widgets -d '{"widget_type":"AllCategories","widget_name":"Categories"}'
-    # curl -k https://ml2admin:wIu4e2zR9fNSi2YdBX2tJ8bDGjHQwUVJCqjGHA7n@dev.cpdm.oraclecorp.com/api/template_files/<widget_Tempalte_file> -d '{"content":"<div>This is an API Test</div>"}' -XPUT
-
-    # Create PostListWidget
-
-    # curl -k https://ml2admin:wIu4e2zR9fNSi2YdBX2tJ8bDGjHQwUVJCqjGHA7n@dev.cpdm.oraclecorp.com/api/templates/<tempalte_id>/widgets -d '{"widget_type":"ContentList","widget_name":"Last Couple","properties":{"limit":"2"}}'
-    # curl -k https://ml2admin:wIu4e2zR9fNSi2YdBX2tJ8bDGjHQwUVJCqjGHA7n@dev.cpdm.oraclecorp.com/api/template_files/<widget_Tempalte_file> -d '{"content":"<div>This is an API Test</div>"}' -XPUT
+    result = data[:auth_user].post("/api/templates/"+template_id+"/revisions", { :comment => "publishing" }.to_json )
   end
 
 end
 
 def populate(data)
 
-  add_template( data[:auth_user] )
+  add_template( data )
 
   (data[:publishers][:count]...data[:publishers][:max]).each do |i|
     data = add_publisher(data)
