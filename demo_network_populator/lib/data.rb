@@ -20,6 +20,10 @@ def images
   ]
 end
 
+def paragraph
+  return "Sed viverra augue tellus nulla sollicitudin scelerisque, scelerisque rutrum mauris pharetra tempor donec arcu, ante nunc ipsum donec nec dis vitae, ipsum tempor. Vel volutpat, sed vel imperdiet, vehicula auctor purus in, eu non tempor amet euismod ligula dictumst, massa orci posuere cras varius suscipit ac. Erat dui. Vitae purus suspendisse facilisi vivamus, ligula placerat pede lorem amet, sociosqu mauris, hendrerit mollis nulla in, sed at ante imperdiet. Nulla nonummy, purus pede at id sem morbi, pariatur aliquet massa donec suspendisse mi, integer malesuada velit aenean."
+end
+
 def languages
   return [
     { :name => "English", :code => "EN"},
@@ -27,14 +31,15 @@ def languages
     { :name => "French", :code => "FR"},
     { :name => "German", :code => "DE"},
     { :name => "Greek", :code => "EL"},
-    { :name => "Tamil", :code => "TA"},
     { :name => "Russian", :code => "RU"},
     { :name => "Portuguese", :code => "PT"},
     { :name => "Arabic", :code => "AR"},
     { :name => "Swedish", :code => "SV"},
     { :name => "Dutch", :code => "NL"},
     { :name => "Italian", :code => "IT"},
-    { :name => "Japanese", :code => "JA"}
+    { :name => "Japanese", :code => "JA"},
+    { :name => "Tamil", :code => "TA"},
+    { :name => "Latin", :code => "LA"}
   ]
 end
 
