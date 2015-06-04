@@ -15,8 +15,16 @@ end
 
 def images
   return [
-    "path to image",
-    "path to image"
+    "//cdn.app.compendium.com/uploads/user/12a67f85-8b31-465a-93a1-99f578338c75/7b68ecaf-94ec-4ea6-b549-2a99e9c6123f/Image/ecf7f3ef41bcf4e4764ca8e019a33c90/analytics.jpg",
+    "//cdn.app.compendium.com/uploads/user/12a67f85-8b31-465a-93a1-99f578338c75/7b68ecaf-94ec-4ea6-b549-2a99e9c6123f/Image/95b52d7e0a9f3b4f89c717f87fcbb281/big_lever.jpg",
+    "//cdn.app.compendium.com/uploads/user/12a67f85-8b31-465a-93a1-99f578338c75/7b68ecaf-94ec-4ea6-b549-2a99e9c6123f/Image/2d88c7b5477d5a20d0532504aea0f27e/blog.jpg",
+    "//cdn.app.compendium.com/uploads/user/12a67f85-8b31-465a-93a1-99f578338c75/7b68ecaf-94ec-4ea6-b549-2a99e9c6123f/Image/65ef481e432b0524eb3b949b72fd9669/brand.jpg",
+    "//cdn.app.compendium.com/uploads/user/12a67f85-8b31-465a-93a1-99f578338c75/7b68ecaf-94ec-4ea6-b549-2a99e9c6123f/Image/461681bc622019832d7d4658da4ba94a/bullseye.jpg",
+    "//cdn.app.compendium.com/uploads/user/12a67f85-8b31-465a-93a1-99f578338c75/7b68ecaf-94ec-4ea6-b549-2a99e9c6123f/Image/cb66aacd10df69a93a03a6d505115401/business_to_business.jpg",
+    "//cdn.app.compendium.com/uploads/user/12a67f85-8b31-465a-93a1-99f578338c75/7b68ecaf-94ec-4ea6-b549-2a99e9c6123f/Image/a9ccd4a231748c06d83e47274253d904/charts_3.jpg",
+    "//cdn.app.compendium.com/uploads/user/12a67f85-8b31-465a-93a1-99f578338c75/7b68ecaf-94ec-4ea6-b549-2a99e9c6123f/Image/b41f62229c12462e87cdd6eccaf144a8/charts_5.jpg",
+    "//cdn.app.compendium.com/uploads/user/12a67f85-8b31-465a-93a1-99f578338c75/7b68ecaf-94ec-4ea6-b549-2a99e9c6123f/Image/e09ca768ea63b8a5e180b390881cf496/chat_bubbles.jpg",
+    "//cdn.app.compendium.com/uploads/user/12a67f85-8b31-465a-93a1-99f578338c75/7b68ecaf-94ec-4ea6-b549-2a99e9c6123f/Image/c884fec0b33888edba0ed2afbc2d6a27/content.jpg"
   ]
 end
 
