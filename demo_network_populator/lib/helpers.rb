@@ -91,7 +91,7 @@ end
 
 def add_publisher(data)
   name = Nretnil::FakeData.word
-  pub = data[:auth_user].publisher.add(name,name + ".compendiumblog.com")
+  pub = data[:auth_user].publisher.add(name,name + ".compendiumblog.com", { :postsPerPage => 20, :start_page_ui_type => "uber" })
   data[:publishers][:items] << { :name => name, :id => pub["id"] }
   data[:publishers][:count] += 1
   data
@@ -101,9 +101,10 @@ def add_content(data)
   puts content_type = data[:content_types][:items][rand(data[:content_types][:count])]
   puts business_unit = data[:business_units][:items][rand(data[:business_units][:count])]
   puts publisher = data[:publishers][:items][rand(data[:publishers][:count])]
+  title = Nretnil::FakeData.words( rand(4) + 1 )
   # Create New Item Here
   # data[:auth_user].content.add()
-  data[:content][:items] << { :name => Nretnil::FakeData.words( rand(4) + 1 ), :id => Nretnil::Password.uuid }
+  data[:content][:items] << { :name => title, :id => Nretnil::Password.uuid }
   data[:content][:count] += 1
   data
 end
@@ -182,13 +183,13 @@ def populate(data)
 
   if !text_type
     ct = data[:auth_user].content_type.add("Text NP", { :primary_editor => "rich_text", :config => { :show_description => true } } )
-    data[:content_types][:items] << { :name => "Text NP", :id => ct["id", :type => "rich_text" }
+    data[:content_types][:items] << { :name => "Text NP", :id => ct["id"], :type => "rich_text" }
     data[:content_types][:count] += 1
   end
 
   if !page_type
     ct = data[:auth_user].content_type.add("Page NP", { :primary_editor => "rich_text", :config => { :show_description => true }, :landing_page => true } )
-    data[:content_types][:items] << { :name => "Page NP", :id => ct["id", :type => "page" }
+    data[:content_types][:items] << { :name => "Page NP", :id => ct["id"], :type => "page" }
     data[:content_types][:count] += 1
   end
 
@@ -206,7 +207,7 @@ def populate(data)
 
   if data[:params]["FilePost"] == "on" && !file_type
     ct = data[:auth_user].content_type.add("File NP", { :primary_editor => "file", :config => { :show_description => true } } )
-    data[:content_types][:items] << { :name => "File NP", :id => ct["id", :type => "file" }
+    data[:content_types][:items] << { :name => "File NP", :id => ct["id"], :type => "file" }
     data[:content_types][:count] += 1
   end
 
