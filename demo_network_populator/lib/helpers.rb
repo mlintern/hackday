@@ -53,8 +53,16 @@ def get_current_data(data)
   # get networks users
   users = data[:auth_user].user.list
   users.each do |user|
-    data[:users][:items] << { :name => user["firstname"] + " " + user["lastname"], :id => user["UserId"] }
-    data[:users][:count] += 1
+    
+    roles = user["roles"]
+    roles.each do |role|
+      role_type = role["name"]
+      
+      if role_type == "Author"
+        data[:users][:items] << { :name => user["firstname"] + " " + user["lastname"], :id => user["UserId"] }
+        data[:users][:count] += 1
+      end
+    end
   end 
 
   # get networks categories
