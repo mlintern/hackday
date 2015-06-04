@@ -31,22 +31,70 @@ end
 
 def get_current_data(data)
 
-  # Get all of the current data and set the counts.
-  # publishers
+  # Get all of the current data and set the counts.\
 
+  # get networks publishers
   pubs = data[:auth_user].publisher.list
   pubs.each do |pub|
     data[:publishers][:items] << { :name => pub["publisher_name"], :id => pub["id"] }
     data[:publishers][:count] += 1
   end 
 
-  # bus
-  # users
-  # content_types
-  # languages
-  # add_projects
-  # add_categories
-  # content
+  # get networks bus
+  bus = data[:auth_user].bu.list
+  bus.each do |bu|
+    data[:business_units][:items] << { :name => bu["name"], :id => bu["business_unit_id"] }
+    data[:business_units][:count] += 1
+  end 
+
+  # get networks users
+  users = data[:auth_user].user.list
+  users.each do |user|
+    data[:users][:items] << { :name => user["firstname"] + " " + user["lastname"], :id => user["UserId"] }
+    data[:users][:count] += 1
+  end 
+
+  # get networks categories
+  categories = data[:auth_user].category.list({:NetworkId => data[:network_id]})
+  
+  categories["Success"].each do |category|
+    data[:categories][:items] << { :name => category["Title"], :id => category["BlogId"] }
+    data[:categories][:count] += 1
+  end
+
+  # get networks content_types
+  content_types = data[:auth_user].content_type.list
+  content_types.each do |content_type|
+    if content_type["landing_page"]
+      type = "page"
+    else
+      type = content_type["primary_editor"]
+    end
+    data[:content_types][:items] << { :name => content_type["name"], :id => content_type["id"], :type => type }
+    data[:content_types][:count] += 1
+  end
+
+  # get networks projects
+  projects = data[:auth_user].project.list
+  projects.each do |project|
+    data[:projects][:items] << { :name => project["name"], :id => project["id"] }
+    data[:projects][:count] += 1
+  end
+
+  # get networks languages
+  languages = data[:auth_user].language.list
+  languages.each do |language|
+    data[:languages][:items] << { :name => language["name"], :id => language["id"] }
+    data[:languages][:count] += 1
+  end
+
+  # get networks content
+  content = data[:auth_user].content.list({:NetworkId => data[:network_id]})
+  
+  content["content"].each do |content|
+    data[:content][:items] << { :name => content["title"], :id => content["id"] }
+    data[:content][:count] += 1
+  end
 
   data
 end
