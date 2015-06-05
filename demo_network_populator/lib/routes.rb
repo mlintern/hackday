@@ -32,7 +32,7 @@ post '/go/?' do
 
   admin = @request_payload["UserName"]
   key = @request_payload["UserKey"]
-  server = "https://dev.cpdm.oraclecorp.com"
+  server = "https://dev.cpdm.oraclecorp.com/"
 
   data[:auth_user] = Nretnil::CompendiumAPI::Compendium.new(admin, key, server)
 
