@@ -303,7 +303,7 @@ def populate(data)
 
   if ( data[:params]["VideoPost"] == "on" && !video_type )
     puts "Creating Video Type"
-    puts ct = data[:auth_user].content_type.add("Video NP", { :show_description => true, :content_score => false }, { :primary_editor => "vidoe" } )
+    puts ct = data[:auth_user].content_type.add("Video NP", { :show_description => true, :content_score => false }, { :primary_editor => "video" } )
     data[:content_types][:items] << { :name => "Video NP", :id => ct["id"], :type => "video" }
     data[:content_types][:count] += 1
   end
