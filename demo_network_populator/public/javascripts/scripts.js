@@ -68,6 +68,10 @@ function getStatusCheck () {
 				updateProgress(data["languages"],"languages-status");
 				updateProgress(data["content"],"content-status");
 			}
+			if (data["all_done"]){
+				console.log("All Done!")
+				clearInterval(loop);
+			}
 		},
 		error: function(data) {
 			console.debug(data);
@@ -100,5 +104,5 @@ function playToggle(){
 }
 
 if ( window.location.pathname == "/status" || window.location.pathname == "/status/" ) {
-	setInterval(getStatusCheck, 5000);
+	var loop = setInterval(getStatusCheck, 5000);
 }

@@ -39,15 +39,15 @@
 					<div class="col-sm-6"><input type="number" min="1" max="100" class="form-control" id="UserCount" name="UserCount" value="<%= params['UserCount'] || 5 %>"/></div>
 				</div>
 				<div class="form-group">
-					<label for="CategoryCount" class="col-sm-6 control-label">Number of Categories (1 - 50)</label>
-					<div class="col-sm-6"><input type="number" min="1" max="50" class="form-control" id="CategoryCount" name="CategoryCount" value="<%= params['CategoryCount'] || 5 %>"/></div>
+					<label for="CategoryCount" class="col-sm-6 control-label">Number of Categories (0 - 50)</label>
+					<div class="col-sm-6"><input type="number" min="0" max="50" class="form-control" id="CategoryCount" name="CategoryCount" value="<%= params['CategoryCount'] || 5 %>"/></div>
 				</div>
 			</div>
 
 			<div class="col-sm-6">
 				<div class="form-group">
-					<label for="ProjectCount" class="col-sm-6 control-label">Number of Projects (1 - 20)</label>
-					<div class="col-sm-6"><input type="number" min="1" max="20" class="form-control" id="ProjectCount" name="ProjectCount" value="<%= params['ProjectCount'] || 5 %>"/></div>
+					<label for="ProjectCount" class="col-sm-6 control-label">Number of Projects (0 - 20)</label>
+					<div class="col-sm-6"><input type="number" min="0" max="20" class="form-control" id="ProjectCount" name="ProjectCount" value="<%= params['ProjectCount'] || 5 %>"/></div>
 				</div>
 				<div class="form-group">
 					<label for="ContentCount" class="col-sm-6 control-label">Number of Content Assets (1 - 1000)</label>

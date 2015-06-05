@@ -1,5 +1,6 @@
 def default_data
   return {
+    :all_done => false,
     :auth_user => nil,
     :business_units => { :count => 0, :items => [], :max => 50 },
     :categories => { :count => 0, :items => [], :max => 50 },

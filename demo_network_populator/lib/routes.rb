@@ -48,8 +48,10 @@ post '/go/?' do
     data = session[:data] = get_current_data(data)
 
     if populate(data)
+      data[:all_done] = true
       return 200, { :success => true }.to_json
     else
+      data[:all_done] = true
       return 200, { :success => false }.to_json
     end
   else
