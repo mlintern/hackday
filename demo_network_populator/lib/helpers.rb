@@ -113,7 +113,7 @@ def add_user(data)
   lastname = Nretnil::FakeData.surname
   username = (firstname[0,1] + lastname).downcase + "-" + data[:network_id]
   email = firstname+"."+lastname+"@"+Nretnil::FakeData.word+".com"
-  puts user = data[:auth_user].user.add(username,firstname,lastname,email)
+  puts user = data[:auth_user].user.add(username,firstname,lastname,email,{ :BusinessUnits => bu_ids })
   user_id = user["Success"]["UserId"]
   puts result = data[:auth_user].role.assign(user_id,[data[:author_role_id]])
   data[:users][:items] << { :name => firstname + " " + lastname, :id => user_id }
@@ -134,7 +134,7 @@ def add_bu(data)
 end
 
 def add_category(data)
-  name = Nretnil::FakeData.word
+  name = categories[rand(categories.count)]
   puts category = data[:auth_user].category.add(name,"category")
   data[:categories][:items] << { :name => name.capitalize, :id => category["Success"] }
   data[:categories][:count] += 1
@@ -158,22 +158,22 @@ def add_content(data)
   puts title = Nretnil::FakeData.words( rand(4) + 1 ).capitalize
   puts slug = data[:auth_user].helper.slugify(title)
   puts pub_date = Time.now
-  body = '<img  style="width: 30%; height: auto; float: left; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p><img  style="width: 30%; height: auto; float: right; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p>'
+  body = '<img  style="width: 30%; height: auto; float: left; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><img  style="width: 30%; height: auto; float: right; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p>'
   options = { :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => categories, :publisher_id => publisher[:id] }
   case content_type[:type]
   when "image"
-    body = '<p>' + paragraph + '</p>'
+    body = '<p>' + paragraphs[rand(paragraphs.count)] + '</p>'
     image = images[rand(images.count)]
     extra_options = { :primary_attachment => { :url => image }, :featured_image => image }
   when "video"
-    body = '<p>' + paragraph + '</p>'
+    body = '<p>' + paragraphs[rand(paragraphs.count)] + '</p>'
     image = images[rand(images.count)]
     video = videos[rand(videos.count)]
     extra_options = { :primary_attachment => { :url => video, :featured_image => image } }
   when "file"
-    body = '<p>' + paragraph + '</p>'
+    body = '<p>' + paragraphs[rand(paragraphs.count)] + '</p>'
     image = images[rand(images.count)]
-    file = images[rand(images.count)]
+    file = files[rand(files.count)]
     extra_options = { :primary_attachment => { :url => file }, :featured_image => image }
   else
     extra_options = {}
