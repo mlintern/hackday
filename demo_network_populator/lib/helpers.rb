@@ -127,8 +127,8 @@ def add_bu(data)
       pub_ids << pub["id"]
   end
   name = Nretnil::FakeData.words(2)
-  puts bu = data[:auth_user].bu.add(name,pub_ids)
-  data[:business_units][:items] << { :name => name, :id => bu["business_unit_id"] }
+  puts bu = data[:auth_user].bu.add(name.capitalize,pub_ids)
+  data[:business_units][:items] << { :name => name.capitalize, :id => bu["business_unit_id"] }
   data[:business_units][:count] += 1
   data
 end
@@ -136,15 +136,15 @@ end
 def add_category(data)
   name = Nretnil::FakeData.word
   puts category = data[:auth_user].category.add(name,"category")
-  data[:categories][:items] << { :name => name, :id => category["Success"] }
+  data[:categories][:items] << { :name => name.capitalize, :id => category["Success"] }
   data[:categories][:count] += 1
   data
 end
 
 def add_publisher(data)
   name = Nretnil::FakeData.word
-  puts pub = data[:auth_user].publisher.add(name,name + ".compendiumblog.com", { :postsPerPage => 20, :start_page_ui_type => "uber" })
-  data[:publishers][:items] << { :name => name, :id => pub["id"] }
+  puts pub = data[:auth_user].publisher.add(name.capitalize,name + ".compendiumblog.com", { :postsPerPage => 10, :start_page_ui_type => "uber", :start_page_ui_id => "" })
+  data[:publishers][:items] << { :name => name.capitalize, :id => pub["id"] }
   data[:publishers][:count] += 1
   data
 end
@@ -155,7 +155,7 @@ def add_content(data)
   puts publisher = data[:publishers][:items][rand(data[:publishers][:count])]
   puts user = data[:users][:items][rand(data[:users][:count])]
   puts categories = [ data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id] ]
-  puts title = Nretnil::FakeData.words( rand(4) + 1 )
+  puts title = Nretnil::FakeData.words( rand(4) + 1 ).capitalize
   puts slug = data[:auth_user].helper.slugify(title)
   puts pub_date = Time.now
   body = '<img  style="width: 30%; height: auto; float: left;" src="' + images[rand(images.count)] + '"/><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p><img  style="width: 30%; height: auto; float: right;" src="' + images[rand(images.count)] + '"/><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p>'
@@ -201,8 +201,8 @@ end
 def add_project(data)
   name = Nretnil::FakeData.word
   color = Nretnil::FakeData.color[:hex]
-  project = data[:auth_user].project.add(name,{ :color => color })
-  data[:projects][:items] << { :name => name, :id => project[:id] }
+  project = data[:auth_user].project.add(name.capitalize,{ :color => color })
+  data[:projects][:items] << { :name => name.capitalize, :id => project[:id] }
   data[:projects][:count] += 1
   data
 end
