@@ -158,17 +158,23 @@ def add_content(data)
   puts title = Nretnil::FakeData.words( rand(4) + 1 ).capitalize
   puts slug = data[:auth_user].helper.slugify(title)
   puts pub_date = Time.now
-  body = '<img  style="width: 30%; height: auto; float: left;" src="' + images[rand(images.count)] + '"/><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p><img  style="width: 30%; height: auto; float: right;" src="' + images[rand(images.count)] + '"/><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p>'
+  body = '<img  style="width: 30%; height: auto; float: left; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p><img  style="width: 30%; height: auto; float: right; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p><p>' + paragraph + '</p>'
   options = { :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => categories, :publisher_id => publisher[:id] }
   case content_type[:type]
-  when "image", "file"
+  when "image"
     body = '<p>' + paragraph + '</p>'
     image = images[rand(images.count)]
-    extra_options = { :primary_attachment => { :url => image }, :featured_image => image } #, :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => categories, :publisher_id => publisher[:id] }
+    extra_options = { :primary_attachment => { :url => image }, :featured_image => image }
   when "video"
     body = '<p>' + paragraph + '</p>'
     image = images[rand(images.count)]
-    extra_options = { :primary_attachment => { :url => videos[rand(videos.count)], :featured_image => image } } #, :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => categories, :publisher_id => publisher[:id] }
+    video = videos[rand(videos.count)]
+    extra_options = { :primary_attachment => { :url => video, :featured_image => image } }
+  when "file"
+    body = '<p>' + paragraph + '</p>'
+    image = images[rand(images.count)]
+    file = images[rand(images.count)]
+    extra_options = { :primary_attachment => { :url => file }, :featured_image => image }
   else
     extra_options = {}
   end
@@ -192,6 +198,21 @@ def add_content(data)
     }
     options = options.merge(approval_options)
     puts asset = data[:root_user].content.add(user[:id], title, body, content_type[:id], options)
+  end
+  case content_type[:type]
+  when "image"
+    asset_id = asset["id"]
+    file_name = image.split("/")[-1]
+    puts attachment = data[:auth_user].post("/api/posts/"+asset_id+"/attachments", { :name => file_name, :source_url => image, :url => image, :type => "image/jpeg", :primary_content => true, :storage_location => "File" }.to_json )
+  when "video"
+    asset_id = asset["id"]
+    file_name = "EmbeddedVideo"
+    puts attachment = data[:auth_user].post("/api/posts/"+asset_id+"/attachments", { :name => file_name, :url => video, :type => "video", :primary_content => true, :storage_location => "File" }.to_json )
+  when "file"
+    asset_id = asset["id"]
+    file_name = image.split("/")[-1]
+    puts attachment = data[:auth_user].post("/api/posts/"+asset_id+"/attachments", { :name => file_name, :source_url => file, :url => file, :type => "image/jpeg", :primary_content => true, :storage_location => "File" }.to_json )
+  else
   end
   data[:content][:items] << { :name => title, :id => asset["id"] }
   data[:content][:count] += 1
