@@ -163,14 +163,17 @@ def add_content(data)
   case content_type[:type]
   when "image", "file"
     body = '<p>' + paragraph + '</p>'
-    options = { :primary_attachment => { :url => images[rand(images.count)] }, :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => categories, :publisher_id => publisher[:id] }
+    image = images[rand(images.count)]
+    extra_options = { :primary_attachment => { :url => image }, :featured_image => image } #, :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => categories, :publisher_id => publisher[:id] }
   when "video"
     body = '<p>' + paragraph + '</p>'
-    options = { :primary_attachment => { :url => videos[rand(videos.count)] }, :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => categories, :publisher_id => publisher[:id] }
+    image = images[rand(images.count)]
+    extra_options = { :primary_attachment => { :url => videos[rand(videos.count)], :featured_image => image } } #, :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => categories, :publisher_id => publisher[:id] }
   else
+    extra_options = {}
   end
   puts body
-  puts options
+  puts options = options.merge(extra_options)
   if data[:root_user].nil?
     puts asset = data[:auth_user].content.add(user[:id], title, body, content_type[:id], options)
   else
@@ -296,21 +299,21 @@ def populate(data)
 
   if ( data[:params]["ImagePost"] == "on" && !image_type )
     puts "Creating Image Type"
-    puts ct = data[:auth_user].content_type.add("Image NP", { :show_description => true, :content_score => false }, { :primary_editor => "image" } )
+    puts ct = data[:auth_user].content_type.add("Image NP", { :show_description => true, :content_score => false }, { :primary_editor => "image", :icon => "fa-picture-o" } )
     data[:content_types][:items] << { :name => "Image NP", :id => ct["id"], :type => "image" }
     data[:content_types][:count] += 1
   end
 
   if ( data[:params]["VideoPost"] == "on" && !video_type )
     puts "Creating Video Type"
-    puts ct = data[:auth_user].content_type.add("Video NP", { :show_description => true, :content_score => false }, { :primary_editor => "video" } )
+    puts ct = data[:auth_user].content_type.add("Video NP", { :show_description => true, :content_score => false }, { :primary_editor => "video", :icon => "fa-film" } )
     data[:content_types][:items] << { :name => "Video NP", :id => ct["id"], :type => "video" }
     data[:content_types][:count] += 1
   end
 
   if ( data[:params]["FilePost"] == "on" && !file_type )
     puts "Creating File Type"
-    puts ct = data[:auth_user].content_type.add("File NP", { :show_description => true, :content_score => false }, { :primary_editor => "file" } )
+    puts ct = data[:auth_user].content_type.add("File NP", { :show_description => true, :content_score => false }, { :primary_editor => "file", :icon => "fa-file" } )
     data[:content_types][:items] << { :name => "File NP", :id => ct["id"], :type => "file" }
     data[:content_types][:count] += 1
   end
