@@ -207,7 +207,7 @@ def add_content(data)
   when "video"
     asset_id = asset["id"]
     file_name = "EmbeddedVideo"
-    puts attachment = data[:auth_user].post("/api/posts/"+asset_id+"/attachments", { :name => file_name, :url => video, :type => "video", :primary_content => true, :storage_location => "File" }.to_json )
+    puts attachment = data[:auth_user].post("/api/posts/"+asset_id+"/attachments", { :name => file_name, :url => video, :type => "video", :primary_content => true, :storage_location => "Embed" }.to_json )
   when "file"
     asset_id = asset["id"]
     file_name = image.split("/")[-1]
