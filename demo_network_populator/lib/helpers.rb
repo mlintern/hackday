@@ -107,7 +107,7 @@ end
 def add_user(data)
   bu_ids = []
   data[:business_units][:items].each do |bu|
-      bu_ids << bu["id"]
+      bu_ids << bu[:id]
   end
   firstname = Nretnil::FakeData.name
   lastname = Nretnil::FakeData.surname
@@ -124,7 +124,7 @@ end
 def add_bu(data)
   pub_ids = []
   data[:publishers][:items].each do |pub|
-      pub_ids << pub["id"]
+      pub_ids << pub[:id]
   end
   name = Nretnil::FakeData.words(2)
   puts bu = data[:auth_user].bu.add(name.capitalize,pub_ids)
