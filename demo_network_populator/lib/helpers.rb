@@ -111,7 +111,7 @@ def add_user(data)
   end
   firstname = Nretnil::FakeData.name
   lastname = Nretnil::FakeData.surname
-  username = (firstname[0,1] + lastname).downcase
+  username = (firstname[0,1] + lastname).downcase + "-" + data[:network_id]
   email = firstname+"."+lastname+"@"+Nretnil::FakeData.word+".com"
   puts user = data[:auth_user].user.add(username,firstname,lastname,email)
   user_id = user["Success"]["UserId"]
