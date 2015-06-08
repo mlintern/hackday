@@ -141,6 +141,15 @@ def add_category(data)
   data
 end
 
+def add_project(data)
+  name = Nretnil::FakeData.word
+  color = Nretnil::FakeData.color[:hex]
+  project = data[:auth_user].project.add(name.capitalize,{ :color => color })
+  data[:projects][:items] << { :name => name.capitalize, :id => project["id"] }
+  data[:projects][:count] += 1
+  data
+end
+
 def add_publisher(data)
   name = Nretnil::FakeData.word
   puts pub = data[:auth_user].publisher.add(name.capitalize,name + ".compendiumblog.com", { :postsPerPage => 10, :start_page_ui_type => "uber", :start_page_ui_id => "", :render_engine => "twig", :uri_pattern => "flex" })
@@ -160,7 +169,7 @@ def add_content(data)
   slug = data[:auth_user].helper.slugify(title)
   pub_date = Time.now
   body = '<img  style="width: 30%; height: auto; float: left; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><img  style="width: 30%; height: auto; float: right; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p>'
-  options = { :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => categories, :publisher_id => publisher[:id], :campaign_id => project[:id] }
+  puts options = { :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => categories, :publisher_id => publisher[:id], :campaign_id => project[:id] }
   case content_type[:type]
   when "image"
     body = '<p>' + paragraphs[rand(paragraphs.count)] + '</p>'
@@ -217,15 +226,6 @@ def add_content(data)
   end
   data[:content][:items] << { :name => title, :id => asset["id"] }
   data[:content][:count] += 1
-  data
-end
-
-def add_project(data)
-  name = Nretnil::FakeData.word
-  color = Nretnil::FakeData.color[:hex]
-  project = data[:auth_user].project.add(name.capitalize,{ :color => color })
-  data[:projects][:items] << { :name => name.capitalize, :id => project[:id] }
-  data[:projects][:count] += 1
   data
 end
 
