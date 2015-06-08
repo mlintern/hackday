@@ -39,8 +39,6 @@
                 formatter: formatMilliseconds
             };
             
-            // if (options) { $.extend(settings, options); }
-            
             return this.each(function() {
                 var $this = $(this),
                     data = $this.data('stopwatch');

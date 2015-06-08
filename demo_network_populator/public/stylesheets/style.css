@@ -98,15 +98,10 @@ label>input[type=checkbox]:disabled {
 }
 
 .stopwatch {
-	margin-bottom: 10px;
 	width: 150px;
-	border-bottom-left-radius: 4px 4px;
-	border-bottom-right-radius: 4px 4px;
-	border-top-left-radius: 4px 4px;
-	border-top-right-radius: 4px 4px;
+	border-radius: 4px 4px;
 	border: 2px solid #EEE;
-	float: left;
-	padding: 0px 8px;
+	padding: 5px 10px;
 	text-align: center;
 	font-size: 25px;
 }

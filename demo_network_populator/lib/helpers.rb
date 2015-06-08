@@ -411,6 +411,8 @@ def populate(data)
     data = add_content(data)
   end
 
+  data[:end_time] = Time.now
+
   return true
 end
 

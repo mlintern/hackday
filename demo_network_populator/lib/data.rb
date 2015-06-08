@@ -6,11 +6,13 @@ def default_data
     :categories => { :count => 0, :items => [], :max => 50 },
     :content => { :count => 0, :items => [], :max => 1000 },
     :content_types => { :count => 0, :items => [], :max => 5 },
+    :end_time => nil,
     :languages => { :count => 0, :items => [], :max => 10 },
     :network_id => nil,
     :projects => { :count => 0, :items => [], :max => 20 },
     :publishers => { :count => 0, :items => [], :max => 10 },
     :root_user => nil,
+    :start_time => Time.now,
     :users => { :count => 0, :items => [], :max => 100 }
   }
 end

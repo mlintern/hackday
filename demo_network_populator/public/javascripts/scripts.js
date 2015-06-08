@@ -113,7 +113,24 @@ function playToggle(){
 }
 
 if ( window.location.pathname == "/status" || window.location.pathname == "/status/" ) {
-	var loop = setInterval(getStatusCheck, 5000);
-}
 
-$(".stopwatch").stopwatch().stopwatch("start");
+	var loop = setInterval(getStatusCheck, 5000);
+
+	$.ajax({
+		url: '/status/check',
+		dataType: 'json',
+		contentType: "application/json",
+		success: function(data) {
+			var now = Math.round( new Date().getTime() );
+			if (data["end_time"] !== null) {
+				var now = Math.round( new Date(data["end_time"]).getTime() )
+			}
+			var start = Math.round( new Date(data["start_time"]).getTime() );
+			$(".stopwatch").stopwatch({ "startTime":(now - start) }).stopwatch("start");
+		},
+		error: function(data) {
+			console.debug(data);
+		}
+	});
+
+}
