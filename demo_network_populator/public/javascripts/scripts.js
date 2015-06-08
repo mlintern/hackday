@@ -76,6 +76,7 @@ function getStatusCheck () {
 			if (data["all_done"]){
 				console.log("All Done!")
 				clearInterval(loop);
+				$(".stopwatch").stopwatch('stop');
 			}
 		},
 		error: function(data) {
@@ -111,3 +112,5 @@ function playToggle(){
 if ( window.location.pathname == "/status" || window.location.pathname == "/status/" ) {
 	var loop = setInterval(getStatusCheck, 5000);
 }
+
+$(".stopwatch").stopwatch().stopwatch("start");
