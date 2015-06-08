@@ -144,7 +144,7 @@ end
 def add_project(data)
   name = Nretnil::FakeData.word
   color = Nretnil::FakeData.color[:hex]
-  project = data[:auth_user].project.add(name.capitalize,{ :color => color })
+  puts project = data[:auth_user].project.add(name.capitalize,{ :color => color })
   data[:projects][:items] << { :name => name.capitalize, :id => project["id"] }
   data[:projects][:count] += 1
   data
