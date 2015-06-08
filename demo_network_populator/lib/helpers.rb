@@ -150,16 +150,17 @@ def add_publisher(data)
 end
 
 def add_content(data)
-  puts content_type = data[:content_types][:items][rand(data[:content_types][:count])]
-  puts business_unit = data[:business_units][:items][rand(data[:business_units][:count])]
-  puts publisher = data[:publishers][:items][rand(data[:publishers][:count])]
-  puts user = data[:users][:items][rand(data[:users][:count])]
-  puts categories = [ data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id] ]
-  puts title = Nretnil::FakeData.words( rand(4) + 1 ).capitalize
-  puts slug = data[:auth_user].helper.slugify(title)
-  puts pub_date = Time.now
+  content_type = data[:content_types][:items][rand(data[:content_types][:count])]
+  business_unit = data[:business_units][:items][rand(data[:business_units][:count])]
+  publisher = data[:publishers][:items][rand(data[:publishers][:count])]
+  user = data[:users][:items][rand(data[:users][:count])]
+  project = data[:projects][:items][rand(data[:projects][:count])]
+  categories = [ data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id] ]
+  title = Nretnil::FakeData.words( rand(4) + 1 ).capitalize
+  slug = data[:auth_user].helper.slugify(title)
+  pub_date = Time.now
   body = '<img  style="width: 30%; height: auto; float: left; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><img  style="width: 30%; height: auto; float: right; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p>'
-  options = { :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => categories, :publisher_id => publisher[:id] }
+  options = { :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => categories, :publisher_id => publisher[:id], :campaign_id => project[:id] }
   case content_type[:type]
   when "image"
     body = '<p>' + paragraphs[rand(paragraphs.count)] + '</p>'
@@ -178,8 +179,8 @@ def add_content(data)
   else
     extra_options = {}
   end
-  puts body
-  puts options = options.merge(extra_options)
+  body
+  options = options.merge(extra_options)
   if data[:root_user].nil?
     puts asset = data[:auth_user].content.add(user[:id], title, body, content_type[:id], options)
   else
@@ -253,7 +254,45 @@ def add_template (data)
 
 end
 
+def update_user_bus(data)
+  puts "Updating User BUs"
+  users = data[:users][:items]
+  bus = data[:business_units][:items]
+  bu_ids =[]
+  bus.each do |bu|
+    bu_ids << bu[:id]
+  end
+  users.each do |user|
+    puts data[:auth_user].put('/api/users/' + user[:id] + '/business_units', { :business_unit_ids => bu_ids }.to_json )
+  end
+end
+
+def update_category_bus(data)
+  puts "Updating Category BUs"
+  categories = data[:categories][:items]
+  bus = data[:business_units][:items]
+  bu_ids =[]
+  bus.each do |bu|
+    bu_ids << bu[:id]
+  end
+  puts bu_ids.inspect
+  categories.each do |category|
+    puts category[:id]
+    puts data[:auth_user].post('/app/blogs/' + category[:id], { :BusinessUnitIds => bu_ids, :AllBusinessUnits => true, :Attributes => { :Title => category[:name], :Description => category[:name], :ParentId => "root", :PublisherIds => [] }.to_json } )
+  end
+end
+
 def populate(data)
+  update_users = false
+  update_categories = false
+
+  if data[:users][:count] > 0 && data[:business_units][:max] > data[:business_units][:count]
+    update_users = true
+  end
+
+  if data[:categories][:count] > 0 && data[:business_units][:max] > data[:business_units][:count]
+    update_categories = true
+  end
 
   add_template( data )
 
@@ -264,6 +303,14 @@ def populate(data)
 
   (data[:business_units][:count]...data[:business_units][:max]).each do |i|
     data = add_bu(data)
+  end
+
+  if update_users
+    update_user_bus(data)
+  end
+
+  if update_categories
+    update_category_bus(data)
   end
 
   roles = data[:auth_user].role.list
