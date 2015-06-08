@@ -30,7 +30,10 @@ $(".expander").on("click", function () {
 
 // update progress bar
 function updateProgress (data, className) {
-	percentage = ( ( data["count"] / data["max"] ) * 100 );
+	var count = data["count"];
+	var requested = data["max"];
+	$( "." + className + " .progress-bar" ).html( count + " of " + requested );
+	percentage = ( ( count / requested ) * 100 );
 	$( "." + className + " .progress-bar" ).width( percentage.toString() + "%" )
 	$( "." + className + " .well" ).html("");
 	if ( percentage < 33 ) {
