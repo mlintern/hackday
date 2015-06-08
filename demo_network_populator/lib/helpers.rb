@@ -254,44 +254,56 @@ def add_template (data)
 
 end
 
-def update_user_bus(data)
-  puts "Updating User BUs"
-  users = data[:users][:items]
+def get_bu_ids(data)
   bus = data[:business_units][:items]
   bu_ids =[]
   bus.each do |bu|
     bu_ids << bu[:id]
   end
+  bu_ids
+end
+
+def update_user_bus(data)
+  puts "Updating User BUs"
+  users = data[:users][:items]
+  bu_ids = get_bu_ids(data)
   users.each do |user|
-    puts data[:auth_user].put('/api/users/' + user[:id] + '/business_units', { :business_unit_ids => bu_ids }.to_json )
+    data[:auth_user].put('/api/users/' + user[:id] + '/business_units', { :business_unit_ids => bu_ids }.to_json )
   end
 end
 
 def update_category_bus(data)
   puts "Updating Category BUs"
   categories = data[:categories][:items]
-  bus = data[:business_units][:items]
-  bu_ids =[]
-  bus.each do |bu|
-    bu_ids << bu[:id]
-  end
-  puts bu_ids.inspect
+  bu_ids = get_bu_ids(data)
   categories.each do |category|
-    puts category[:id]
-    puts data[:auth_user].post('/app/blogs/' + category[:id], { :BusinessUnitIds => bu_ids, :AllBusinessUnits => true, :Attributes => { :Title => category[:name], :Description => category[:name], :ParentId => "root", :PublisherIds => [] }.to_json } )
+    data[:auth_user].post('/app/blogs/' + category[:id], { :BusinessUnitIds => bu_ids, :AllBusinessUnits => true, :Attributes => { :Title => category[:name], :Description => category[:name], :ParentId => "root", :PublisherIds => [] }.to_json } )
+  end
+end
+
+def update_project_bus(data)
+  puts "Updating Project BUs"
+  projects = data[:projects][:items]
+  bu_ids = get_bu_ids(data)
+  projects.each do |project|
+    data[:auth_user].project.edit(project[:id],{ :business_units => bu_ids, :all_business_units => true })
+  end
+end
+
+def update_content_type_bus(data)
+  puts "Updating Content Type BUs"
+  content_types = data[:content_types][:items]
+  bu_ids = get_bu_ids(data)
+  content_types.each do |ct|
+    data[:auth_user].content_type.edit(ct[:id], {}, { :business_units => bu_ids, :all_business_units => true })
   end
 end
 
 def populate(data)
-  update_users = false
-  update_categories = false
+  new_bus = false
 
-  if data[:users][:count] > 0 && data[:business_units][:max] > data[:business_units][:count]
-    update_users = true
-  end
-
-  if data[:categories][:count] > 0 && data[:business_units][:max] > data[:business_units][:count]
-    update_categories = true
+  if data[:business_units][:max] > data[:business_units][:count]
+    new_bus = true
   end
 
   add_template( data )
@@ -305,12 +317,11 @@ def populate(data)
     data = add_bu(data)
   end
 
-  if update_users
+  if new_bus
     update_user_bus(data)
-  end
-
-  if update_categories
     update_category_bus(data)
+    update_project_bus(data)
+    update_content_type_bus(data)
   end
 
   roles = data[:auth_user].role.list
