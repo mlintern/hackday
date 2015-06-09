@@ -198,39 +198,53 @@ def add_content(data)
   end
   body
   options = options.merge(extra_options)
-  if data[:root_user].nil?
-    puts asset = data[:auth_user].content.add(user[:id], title, body, content_type[:id], options)
-  else
-    approval_options = { 
-      :import_live => true,
-      :import_from => "Network Populator",
-      :network_id => data[:network_id],
-      :publish_date => pub_date,
-      :post_publication => {
-        :remote_id => nil,
-        :publish_stamp => pub_date,
-        :remote_url => nil,
-        :remote_state => nil,
-        :state => 'published'
-      }
-    }
-    options = options.merge(approval_options)
-    puts asset = data[:root_user].content.add(user[:id], title, body, content_type[:id], options)
-  end
-  case content_type[:type]
-  when "image"
-    asset_id = asset["id"]
-    file_name = image.split("/")[-1]
-    puts attachment = data[:auth_user].post("/api/posts/"+asset_id+"/attachments", { :name => file_name, :source_url => image, :url => image, :type => "image/jpeg", :primary_content => true, :storage_location => "File" }.to_json )
-  when "video"
-    asset_id = asset["id"]
-    file_name = "EmbeddedVideo"
-    puts attachment = data[:auth_user].post("/api/posts/"+asset_id+"/attachments", { :name => file_name, :url => video, :type => "video", :primary_content => true, :storage_location => "Embed" }.to_json )
-  when "file"
-    asset_id = asset["id"]
-    file_name = image.split("/")[-1]
-    puts attachment = data[:auth_user].post("/api/posts/"+asset_id+"/attachments", { :name => file_name, :source_url => file, :url => file, :type => "image/jpeg", :primary_content => true, :storage_location => "File" }.to_json )
-  else
+  failed = true
+  while failed
+    
+    begin
+      if data[:root_user].nil?
+        puts asset = data[:auth_user].content.add(user[:id], title, body, content_type[:id], options)
+      else
+        approval_options = { 
+          :import_live => true,
+          :import_from => "Network Populator",
+          :network_id => data[:network_id],
+          :publish_date => pub_date,
+          :post_publication => {
+            :remote_id => nil,
+            :publish_stamp => pub_date,
+            :remote_url => nil,
+            :remote_state => nil,
+            :state => 'published'
+          }
+        }
+        options = options.merge(approval_options)
+        puts asset = data[:root_user].content.add(user[:id], title, body, content_type[:id], options)
+      end
+
+      case content_type[:type]
+      when "image"
+        asset_id = asset["id"]
+        file_name = image.split("/")[-1]
+        puts attachment = data[:auth_user].post("/api/posts/"+asset_id+"/attachments", { :name => file_name, :source_url => image, :url => image, :type => "image/jpeg", :primary_content => true, :storage_location => "File" }.to_json )
+      when "video"
+        asset_id = asset["id"]
+        file_name = "EmbeddedVideo"
+        puts attachment = data[:auth_user].post("/api/posts/"+asset_id+"/attachments", { :name => file_name, :url => video, :type => "video", :primary_content => true, :storage_location => "Embed" }.to_json )
+      when "file"
+        asset_id = asset["id"]
+        file_name = image.split("/")[-1]
+        puts attachment = data[:auth_user].post("/api/posts/"+asset_id+"/attachments", { :name => file_name, :source_url => file, :url => file, :type => "image/jpeg", :primary_content => true, :storage_location => "File" }.to_json )
+      else
+      end
+      failed = false
+    rescue
+      data[:errors] << asset
+      unless attachment.nil?
+        data[:errors] << attachment
+      end
+    end
+
   end
   data[:content][:items] << { :name => title, :id => asset["id"] }
   data[:content][:count] += 1
