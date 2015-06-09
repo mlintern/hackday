@@ -9,7 +9,7 @@ https://github.com/mlintern/nretnil-fake-data
   a. ENV['ROOT_USERNAME'] = 'username'
   b. ENV['ROOT_KEY'] = 'access_key'
 2. run bundle
-3. run bundle exec ruby app.rb
+3. run bundle exec ruby app.rb or rackup -p8888
 
 
 
@@ -28,10 +28,10 @@ curl http://localhost:8888/status/check -H "Content-Type: application/json"
 
 1. Load form information indo data.
 2. Go get current elemnts and add to data.
-3. Create new elements if the requested limit has not been reached. Use following order.
+3. Create and setup template.
+4. Create new elements if the requested limit has not been reached. Use following order.
 	a. Publishers
 	b. Business Units
 	c. Users, Categories, Content Types, Projects
 	d. Content
-4. Create and setup template.
 
