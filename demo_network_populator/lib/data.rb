@@ -7,6 +7,7 @@ def default_data
     :content => { :count => 0, :items => [], :max => 1000 },
     :content_types => { :count => 0, :items => [], :max => 5 },
     :end_time => nil,
+    :errors => [],
     :languages => { :count => 0, :items => [], :max => 10 },
     :network_id => nil,
     :projects => { :count => 0, :items => [], :max => 20 },

@@ -33,6 +33,7 @@ function updateProgress (data, className) {
 	var count = data["count"];
 	var requested = data["max"];
 	$( "." + className + " .progress-bar" ).html( count + " of " + requested );
+	if ( count > requested ) { count = requested; }
 	percentage = ( ( count / requested ) * 100 );
 	$( "." + className + " .progress-bar" ).width( percentage.toString() + "%" )
 	$( "." + className + " .well" ).html("");

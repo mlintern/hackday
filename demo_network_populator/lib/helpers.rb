@@ -109,13 +109,20 @@ def add_user(data)
   data[:business_units][:items].each do |bu|
       bu_ids << bu[:id]
   end
-  firstname = Nretnil::FakeData.name
-  lastname = Nretnil::FakeData.surname
-  username = (firstname[0,1] + lastname).downcase + "-" + data[:network_id]
-  email = firstname+"."+lastname+"@"+Nretnil::FakeData.word+".com"
-  puts user = data[:auth_user].user.add(username,firstname,lastname,email,{ :BusinessUnits => bu_ids })
-  user_id = user["Success"]["UserId"]
-  puts result = data[:auth_user].role.assign(user_id,[data[:author_role_id]])
+  user = { :error => "true" }
+  while user.key?(:error)
+    firstname = Nretnil::FakeData.name
+    lastname = Nretnil::FakeData.surname
+    username = (firstname[0,1] + lastname).downcase + "-" + data[:network_id]
+    puts email = firstname+"."+lastname+"@"+Nretnil::FakeData.word+".com"
+    begin
+      puts user = data[:auth_user].user.add(username,firstname,lastname,email,{ :BusinessUnits => bu_ids })
+      user_id = user["Success"]["UserId"]
+      puts result = data[:auth_user].role.assign(user_id,[data[:author_role_id]])
+    rescue
+      data[:errors] << user
+    end
+  end
   data[:users][:items] << { :name => firstname + " " + lastname, :id => user_id }
   data[:users][:count] += 1
   data
