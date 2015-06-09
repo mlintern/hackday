@@ -159,7 +159,8 @@ end
 
 def add_publisher(data)
   name = Nretnil::FakeData.word
-  puts pub = data[:auth_user].publisher.add(name.capitalize,name + ".compendiumblog.com", { :postsPerPage => 10, :start_page_ui_type => "uber", :start_page_ui_id => "", :render_engine => "twig", :uri_pattern => "flex" })
+  domain = "compendiumblog.com"
+  puts pub = data[:auth_user].publisher.add(name.capitalize,name + "." + domain, { :template_id => data[:template_id], :postsPerPage => 10, :start_page_ui_type => "uber", :start_page_ui_id => "", :render_engine => "twig", :uri_pattern => "flex" })
   data[:publishers][:items] << { :name => name.capitalize, :id => pub["id"] }
   data[:publishers][:count] += 1
   data
@@ -239,9 +240,11 @@ end
 def add_template (data)
 
   templates = data[:auth_user].get("/api/templates", { :network_id => data[:network_id] } )
-  unless templates.count > 0
+  if templates.count < 0
+    data[:template_id] = templates[0]["id"]
+  else
     puts result = data[:auth_user].post("/api/templates", { :network => data[:network_id], :name => "Network Populator Template" }.to_json )
-    template_id = result["id"]
+    data[:template_id] = template_id = result["id"]
 
     puts result = data[:auth_user].post("/api/templates/"+template_id+"/template_files", { :name => "default.tpl" }.to_json )
     default_id = result["id"]
@@ -259,6 +262,7 @@ def add_template (data)
     puts result = data[:auth_user].post("/api/templates/"+template_id+"/revisions", { :comment => "publishing" }.to_json )
   end
 
+  data
 end
 
 def get_bu_ids(data)
@@ -313,8 +317,7 @@ def populate(data)
     new_bus = true
   end
 
-  add_template( data )
-
+  data = add_template(data)
 
   (data[:publishers][:count]...data[:publishers][:max]).each do |i|
     data = add_publisher(data)

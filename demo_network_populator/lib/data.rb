@@ -14,6 +14,7 @@ def default_data
     :publishers => { :count => 0, :items => [], :max => 10 },
     :root_user => nil,
     :start_time => Time.now,
+    :template_id => nil,
     :users => { :count => 0, :items => [], :max => 100 }
   }
 end

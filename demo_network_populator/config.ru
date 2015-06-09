@@ -1,9 +1,12 @@
 require 'rubygems'
 require 'sinatra'
 
-log = File.new('logs/sinatra.log','a')
-$stdout.reopen(log)
-$stderr.reopen(log)
+
+configure :production do
+	log = File.new('logs/sinatra.log','a')
+	$stdout.reopen(log)
+	$stderr.reopen(log)
+end
 
 require File.expand_path('../app.rb', __FILE__)
 
