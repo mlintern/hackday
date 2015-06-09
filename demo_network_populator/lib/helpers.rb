@@ -239,9 +239,13 @@ def add_content(data)
       end
       failed = false
     rescue
-      data[:errors] << asset
+      unless asset.nil?
+        data[:errors] << asset
+        asset = nil
+      end
       unless attachment.nil?
         data[:errors] << attachment
+        attachemnt = nil
       end
     end
 
