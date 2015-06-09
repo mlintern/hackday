@@ -35,3 +35,8 @@ curl http://localhost:8888/status/check -H "Content-Type: application/json"
 	c. Users, Categories, Content Types, Projects
 	d. Content
 
+
+
+Start On Remote Machine:
+
+bundle exec rackup -p8888 --host 0.0.0.0
