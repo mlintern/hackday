@@ -34,24 +34,26 @@ end
 
 def get_current_data(data)
 
-  # Get all of the current data and set the counts.\
+  # Get all of the current data and set the counts.
+
+  puts "Getting Current Data!"
 
   # get networks publishers
-  puts pubs = data[:auth_user].publisher.list
+  pubs = data[:auth_user].publisher.list
   pubs.each do |pub|
     data[:publishers][:items] << { :name => pub["publisher_name"], :id => pub["id"] }
     data[:publishers][:count] += 1
   end 
 
   # get networks bus
-  puts bus = data[:auth_user].bu.list
+  bus = data[:auth_user].bu.list
   bus.each do |bu|
     data[:business_units][:items] << { :name => bu["name"], :id => bu["business_unit_id"] }
     data[:business_units][:count] += 1
   end 
 
   # get networks users
-  puts users = data[:auth_user].user.list
+  users = data[:auth_user].user.list
   users.each do |user|
     user["roles"].each do |role|
       if role["name"] == "Author"
@@ -62,14 +64,14 @@ def get_current_data(data)
   end 
 
   # get networks categories
-  puts categories = data[:auth_user].category.list({:NetworkId => data[:network_id], :SearchCriteria => { :BlogType => "category" }.to_json } )
+  categories = data[:auth_user].category.list({:NetworkId => data[:network_id], :SearchCriteria => { :BlogType => "category" }.to_json } )
   categories["Success"].each do |category|
     data[:categories][:items] << { :name => category["Title"], :id => category["BlogId"] }
     data[:categories][:count] += 1
   end
 
   # get networks content_types
-  puts content_types = data[:auth_user].content_type.list
+  content_types = data[:auth_user].content_type.list
   content_types.each do |content_type|
     if content_type["landing_page"]
       type = "page"
@@ -81,21 +83,21 @@ def get_current_data(data)
   end
 
   # get networks projects
-  puts projects = data[:auth_user].project.list
+  projects = data[:auth_user].project.list
   projects.each do |project|
     data[:projects][:items] << { :name => project["name"], :id => project["id"] }
     data[:projects][:count] += 1
   end
 
   # get networks languages
-  puts languages = data[:auth_user].language.list
+  languages = data[:auth_user].language.list
   languages.each do |language|
     data[:languages][:items] << { :name => language["name"], :id => language["id"] }
     data[:languages][:count] += 1
   end
 
   # get networks content
-  puts content = data[:auth_user].content.list_all({:NetworkId => data[:network_id]})
+  content = data[:auth_user].content.list_all({:NetworkId => data[:network_id]})
   content["content"].each do |content|
     data[:content][:items] << { :name => content["title"], :id => content["id"] }
     data[:content][:count] += 1
@@ -114,7 +116,8 @@ def add_user(data)
     firstname = Nretnil::FakeData.name
     lastname = Nretnil::FakeData.surname
     username = (firstname[0,1] + lastname).downcase + "-" + data[:network_id]
-    puts email = firstname+"."+lastname+"@"+Nretnil::FakeData.word+".com"
+    puts data[:params]["EmailAddress"].length > 0
+    puts email = data[:params]["EmailAddress"].length > 0 ? data[:params]["EmailAddress"] : firstname+"."+lastname+"@"+Nretnil::FakeData.word+".com" 
     begin
       puts user = data[:auth_user].user.add(username,firstname,lastname,email,{ :BusinessUnits => bu_ids })
       user_id = user["Success"]["UserId"]
@@ -258,9 +261,11 @@ end
 def add_template (data)
 
   templates = data[:auth_user].get("/api/templates", { :network_id => data[:network_id] } )
-  if templates.count < 0
+  if templates.count > 0
+    puts "Using Current Template"
     data[:template_id] = templates[0]["id"]
   else
+    puts "Creating New Template"
     puts result = data[:auth_user].post("/api/templates", { :network => data[:network_id], :name => "Network Populator Template" }.to_json )
     data[:template_id] = template_id = result["id"]
 

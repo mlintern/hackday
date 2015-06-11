@@ -114,6 +114,11 @@ function playToggle(){
   document.getElementById('toggle').play();
 }
 
+function clearEmail(){
+	$("#EmailAddress").val('');
+	$("#EmailAddress").removeAttr('value');
+}
+
 if ( window.location.pathname == "/status" || window.location.pathname == "/status/" ) {
 
 	var loop = setInterval(getStatusCheck, 5000);
