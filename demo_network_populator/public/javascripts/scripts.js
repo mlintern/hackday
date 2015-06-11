@@ -131,7 +131,7 @@ function setTest() {
 }
 
 function setProd() {
-	$("#Server").val('https://app.compendiumblog.com');
+	$("#Server").val('https://app.compendium.com');
 	$("#PublisherDomain").val('compendiumblog.com');
 	clearEmail();
 }
