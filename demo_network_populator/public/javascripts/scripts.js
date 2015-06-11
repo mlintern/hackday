@@ -116,7 +116,21 @@ function playToggle(){
 
 function clearEmail(){
 	$("#EmailAddress").val('');
-	$("#EmailAddress").removeAttr('value');
+}
+
+function setDev() {
+	$("#PublisherDomain").val('dev.cpdm.oraclecorp.com');
+	clearEmail();
+}
+
+function setTest() {
+	$("#PublisherDomain").val('app.test-cpdm.oraclecorp.com');
+	clearEmail();
+}
+
+function setProd() {
+	$("#PublisherDomain").val('compendiumblog.com');
+	clearEmail();
 }
 
 if ( window.location.pathname == "/status" || window.location.pathname == "/status/" ) {
