@@ -74,7 +74,7 @@
 </div>
 
 <!-- Trigger modal -->
-<a href="#" class="secret-button" data-toggle="modal" data-target="#secretSettings"></a>
+<a href="#" class="secret-button" data-toggle="modal" data-target="#secretSettings"><i class="fa fa-3x fa-hand-o-up"></i></a>
 
 <!-- Modal -->
 <div class="modal fade" id="secretSettings" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -91,7 +91,7 @@
 						<div class="col-sm-6"><input type="text" class="form-control" id="PublisherDomain" name="PublisherDomain" value="<%= params['PublisherDomain'] || 'compendiumblog.com' %>"/></div>
 					</div>
 					<div class="form-group">
-						<label for="EmailAddress" class="col-sm-6 control-label">Email Address For Users <button class="js-trigger btn btn-sm btn-danger" onclick="clearEmail();"><i class="fa fa-times"></i></button></label>
+						<label for="EmailAddress" class="col-sm-6 control-label">Email for new users <button class="js-trigger btn btn-sm btn-danger" onclick="clearEmail();"><i class="fa fa-times"></i></button></label>
 						<div class="col-sm-6"><input type="text" class="form-control" id="EmailAddress" name="EmailAddress" value="<%= params['EmailAddress'] || '' %>" /></div>
 					</div>
 				</form>

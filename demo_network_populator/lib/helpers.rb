@@ -116,7 +116,6 @@ def add_user(data)
     firstname = Nretnil::FakeData.name
     lastname = Nretnil::FakeData.surname
     username = (firstname[0,1] + lastname).downcase + "-" + data[:network_id]
-    puts data[:params]["EmailAddress"].length > 0
     puts email = data[:params]["EmailAddress"].length > 0 ? data[:params]["EmailAddress"] : firstname+"."+lastname+"@"+Nretnil::FakeData.word+".com" 
     begin
       puts user = data[:auth_user].user.add(username,firstname,lastname,email,{ :BusinessUnits => bu_ids })

@@ -36,13 +36,22 @@ form hr {
 	margin-top: 5px;
 }
 
-.secret-button {
+.secret-button, .secret-button:active, .secret-button:focus {
 	display: inline-block;
 	position: fixed;
 	bottom: 0;
 	left: 0;
 	width: 100px;
 	height: 100px;
+	vertical-align: middle;
+	line-height: 100px;
+	text-align: center;
+	color: #EEEEEE;
+	outline: none;
+}
+
+.secret-button:hover {
+	color: #888888;
 }
 
 .main-container {
@@ -102,8 +111,9 @@ label>input[type=checkbox]:disabled {
 }
 
 .clock {
-	position: absolute;
+	position: fixed;
 	left: 25px;
+	background-color: #FFFFFF;
 }
 
 .stopwatch {
