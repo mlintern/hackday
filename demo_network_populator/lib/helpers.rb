@@ -159,7 +159,7 @@ end
 
 def add_publisher(data)
   name = Nretnil::FakeData.word
-  domain = "compendiumblog.com"
+  domain = data[:params]["PublisherDomain"] || "compendiumblog.com"
   puts pub = data[:auth_user].publisher.add(name.capitalize,name + "." + domain, { :template_id => data[:template_id], :postsPerPage => 10, :start_page_ui_type => "uber", :start_page_ui_id => "", :render_engine => "twig", :uri_pattern => "flex" })
   data[:publishers][:items] << { :name => name.capitalize, :id => pub["id"] }
   data[:publishers][:count] += 1

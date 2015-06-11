@@ -26,7 +26,7 @@ post '/go/?' do
 
   @@data = default_data
 
-  @@params = @@data[:params] = @request_payload
+  puts @@params = @@data[:params] = @request_payload
 
   @@data = set_max(@@data,@request_payload)
 

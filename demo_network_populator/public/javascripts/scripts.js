@@ -92,7 +92,8 @@ function getStatusCheck () {
 // Execute() - send form data
 function execute() {
 	url = "/go";
-	data = $(".settings").serializeObject();
+	data = $(".settings, .secret-settings").serializeObject();
+	console.log(data);
 	$.ajax({
 		url: url,
 		data: JSON.stringify(data),

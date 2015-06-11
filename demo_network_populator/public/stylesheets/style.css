@@ -36,6 +36,15 @@ form hr {
 	margin-top: 5px;
 }
 
+.secret-button {
+	display: inline-block;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100px;
+	height: 100px;
+}
+
 .main-container {
 	margin-top: 70px;
 	margin-bottom: 50px;
