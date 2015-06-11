@@ -119,16 +119,19 @@ function clearEmail(){
 }
 
 function setDev() {
+	$("#Server").val('https://dev.cpdm.oraclecorp.com');
 	$("#PublisherDomain").val('dev.cpdm.oraclecorp.com');
 	clearEmail();
 }
 
 function setTest() {
+	$("#Server").val('https://app.test-cpdm.oraclecorp.com');
 	$("#PublisherDomain").val('app.test-cpdm.oraclecorp.com');
 	clearEmail();
 }
 
 function setProd() {
+	$("#Server").val('https://app.compendiumblog.com');
 	$("#PublisherDomain").val('compendiumblog.com');
 	clearEmail();
 }
