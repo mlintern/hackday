@@ -28,6 +28,21 @@ $(".expander").on("click", function () {
 	$(this).toggleClass("fa-minus");
 })
 
+function updateStatusData (data) {
+	var html = '<div>Network Id: ' + data["network_id"] + '</div>';
+	html += '<div>Params: </div><ul>';
+	_.each(data["params"], function (value, name) {
+		html += '<li>' + name + ': ' + value + '</li>';
+	});
+	html += '</ul>'
+	html += '<div>Errors: </div><ol>';
+	_.each(data["errors"], function (error) {
+		html += '<li>' + JSON.stringify(error) + '</li>';
+	});
+	html += '</ol>'
+	$('.page-header .well').html(html);
+}
+
 // update progress bar
 function updateProgress (data, className) {
 	var count = data["count"];
@@ -68,6 +83,7 @@ function getStatusCheck () {
 				window.location.replace("/error");
 			} else {
 				$(".loading").hide();
+				updateStatusData(data);
 				updateProgress(data["publishers"],"publishers-status");
 				updateProgress(data["business_units"],"business-units-status");
 				updateProgress(data["users"],"users-status");
@@ -80,7 +96,9 @@ function getStatusCheck () {
 			if (data["all_done"]){
 				console.log("All Done!")
 				clearInterval(loop);
-				$(".stopwatch").stopwatch('stop');
+				var start = Math.round( new Date(data["start_time"]).getTime() );
+				var end = Math.round( new Date(data["end_time"]).getTime() );
+				$(".stopwatch").stopwatch({ "startTime":(end - start) }).stopwatch('stop');
 			}
 		},
 		error: function(data) {

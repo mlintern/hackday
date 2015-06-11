@@ -81,6 +81,24 @@ form hr {
 .page-header {
 	margin-top: 20px;
 }
+.page-header .expander {
+	margin-top: 0;
+}
+
+.page-header .well {
+	display: none;
+	margin-top: 20px;
+	font-size: 14px;
+	line-height: 1.4;
+}
+
+.well ul {
+  padding-left: 20px;
+}
+
+.well ul > li {
+	list-style: none;
+}
 
 /* custom checkboxes */
 
