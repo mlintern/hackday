@@ -207,19 +207,7 @@ def add_content(data)
       if data[:root_user].nil?
         puts asset = data[:auth_user].content.add(user[:id], title, body, content_type[:id], options)
       else
-        approval_options = { 
-          :import_live => true,
-          :import_from => "Network Populator",
-          :network_id => data[:network_id],
-          :publish_date => pub_date,
-          :post_publication => {
-            :remote_id => nil,
-            :publish_stamp => pub_date,
-            :remote_url => nil,
-            :remote_state => nil,
-            :state => 'published'
-          }
-        }
+        approval_options = { :import_live => true, :import_from => "Network Populator", :network_id => data[:network_id], :publish_date => pub_date, :post_publication => { :remote_id => nil, :publish_stamp => pub_date, :remote_url => nil, :remote_state => nil, :state => 'published' } }
         options = options.merge(approval_options)
         puts asset = data[:root_user].content.add(user[:id], title, body, content_type[:id], options)
       end
