@@ -106,11 +106,11 @@
 					</div>
 					<div class="form-group">
 						<label for="DateMin" class="col-sm-6 control-label">Pub Date Begin</label>
-						<div class="col-sm-6"><input type="date" class="form-control" id="DateMin" name="DateMin" min="1990-01-01" value="<%= params['DateMin'] || '1999-12-31' %>"/></div>
+						<div class="col-sm-6"><input type="date" class="form-control" id="DateMin" name="DateMin" min="1990-01-01" value="<%= params['DateMin'] || '' %>"/></div>
 					</div>
 					<div class="form-group">
 						<label for="DateMax" class="col-sm-6 control-label">Pub Date End</label>
-						<div class="col-sm-6"><input type="date" class="form-control" id="DateMax" name="DateMax" min="1990-01-01" value="<%= params['DateMax'] || '2015-12-31' %>"/></div>
+						<div class="col-sm-6"><input type="date" class="form-control" id="DateMax" name="DateMax" min="1990-01-01" value="<%= params['DateMax'] || '' %>"/></div>
 					</div>
 				</form>
 			</div>
