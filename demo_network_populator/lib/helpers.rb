@@ -124,6 +124,8 @@ def add_user(data)
     begin
       puts user = data[:auth_user].user.add(username,firstname,lastname,email,{ :BusinessUnits => bu_ids })
       user_id = user["Success"]["UserId"]
+      blog_id = user["Success"]["BlogId"]
+      puts result = data[:auth_user].post("/app/blog/edit",{ :BlogId => blog_id, :Attributes => { :Title => firstname + " " + lastname }.to_json })
       puts result = data[:auth_user].role.assign(user_id,[data[:author_role_id]])
     rescue
       data[:errors] << user
