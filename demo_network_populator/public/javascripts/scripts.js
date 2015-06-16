@@ -111,21 +111,25 @@ function getStatusCheck () {
 function execute() {
 	url = "/go";
 	data = $(".settings, .secret-settings").serializeObject();
-	console.log(data);
-	$.ajax({
-		url: url,
-		data: JSON.stringify(data),
-		dataType: 'json',
-		contentType: "application/json",
-		type: 'POST',
-		success: function(response) {
-			console.log(response);
-		},
-		error: function(response) {
-			console.log(response);
-		}
-	});
-	window.location.href = "/status";
+	if (data["DateMin"] > data["DateMax"]){
+		window.alert("Begin date needs to be greater than end date");
+	}else {
+		console.log(data);
+		$.ajax({
+			url: url,
+			data: JSON.stringify(data),
+			dataType: 'json',
+			contentType: "application/json",
+			type: 'POST',
+			success: function(response) {
+				console.log(response);
+			},
+			error: function(response) {
+				console.log(response);
+			}
+		});
+		window.location.href = "/status";
+	}
 }
 
 function playToggle(){

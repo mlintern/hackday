@@ -104,6 +104,14 @@
 						<label for="EmailAddress" class="col-sm-6 control-label">Email for new users <button class="js-trigger btn btn-sm btn-danger" onclick="clearEmail();"><i class="fa fa-times"></i></button></label>
 						<div class="col-sm-6"><input type="text" class="form-control" id="EmailAddress" name="EmailAddress" value="<%= params['EmailAddress'] || '' %>" /></div>
 					</div>
+					<div class="form-group">
+						<label for="DateMin" class="col-sm-6 control-label">Pub Date Begin:</label>
+						<div class="col-sm-6"><input type="date" class="form-control" id="DateMin" name="DateMin" min="1990-01-01" value="<%= params['DateMin'] || '1999-12-31' %>"/></div>
+					</div>
+					<div class="form-group">
+						<label for="DateMax" class="col-sm-6 control-label">Pub Date End:</label>
+						<div class="col-sm-6"><input type="date" class="form-control" id="DateMax" name="DateMax" min="1990-01-01" value="<%= params['DateMax'] || '2015-12-31' %>"/></div>
+					</div>
 				</form>
 			</div>
 		</div>
