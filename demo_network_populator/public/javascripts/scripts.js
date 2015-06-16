@@ -111,9 +111,11 @@ function getStatusCheck () {
 function execute() {
 	url = "/go";
 	data = $(".settings, .secret-settings").serializeObject();
-	if (data["DateMin"] > data["DateMax"]){
-		window.alert("Begin date needs to be greater than end date");
-	}else {
+	if (data["DateMin"] > data["DateMax"]) {
+		window.alert("Begin date needs to be greater than end date.");
+	} else if ( ( data["DateMin"].length == 0 && data["DateMax"].length != 0 ) || ( data["DateMax"].length == 0 && data["DateMin"].length != 0 ) ) {
+		window.alert("Both Begin and End Pub Dates must be set or neither.");
+	} else {
 		console.log(data);
 		$.ajax({
 			url: url,

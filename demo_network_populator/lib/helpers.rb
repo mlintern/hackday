@@ -29,6 +29,10 @@ def set_max(data,params)
   data[:content_types][:max] += 1 if params["FilePost"] == "on"
   data[:projects][:max] = params["ProjectCount"].to_i || 20
 
+  data[:start_pub_date] = data[:params]["DateMin"].length > 0 ? Time.parse(data[:params]["DateMin"]).to_i : Time.now.to_i - ( data[:params]["ContentCount"].to_i * 12 * 60 * 60 )
+  data[:end_pub_date] = data[:params]["DateMax"].length > 0 ? Time.parse(data[:params]["DateMax"]).to_i : Time.now.to_i
+  data[:pub_date_range] = data[:end_pub_date] - data[:start_pub_date]
+
   data
 end
 
@@ -177,7 +181,7 @@ def add_content(data)
   categories = [ data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id] ]
   title = Nretnil::FakeData.words( rand(4) + 1 ).capitalize
   slug = data[:auth_user].helper.slugify(title)
-  pub_date = Time.now
+  pub_date = Time.at( rand( data[:pub_date_range] ) + data[:start_pub_date] )
   body = '<img  style="width: 30%; height: auto; float: left; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><img  style="width: 30%; height: auto; float: right; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p>'
   puts options = { :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => categories, :publisher_id => publisher[:id], :campaign_id => project[:id] }
   case content_type[:type]
