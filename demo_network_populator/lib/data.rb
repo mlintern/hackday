@@ -79,20 +79,20 @@ end
 
 def languages
   return [
-    { :name => "English", :code => "EN"},
-    { :name => "Spanish", :code => "ES"},
-    { :name => "French", :code => "FR"},
-    { :name => "German", :code => "DE"},
-    { :name => "Greek", :code => "EL"},
-    { :name => "Russian", :code => "RU"},
-    { :name => "Portuguese", :code => "PT"},
-    { :name => "Arabic", :code => "AR"},
-    { :name => "Swedish", :code => "SV"},
-    { :name => "Dutch", :code => "NL"},
-    { :name => "Italian", :code => "IT"},
-    { :name => "Japanese", :code => "JA"},
-    { :name => "Tamil", :code => "TA"},
-    { :name => "Latin", :code => "LA"}
+    { :name => "English", :code => "EN" },
+    { :name => "Spanish", :code => "ES" },
+    { :name => "French", :code => "FR" },
+    { :name => "German", :code => "DE" },
+    { :name => "Greek", :code => "EL" },
+    { :name => "Russian", :code => "RU" },
+    { :name => "Portuguese", :code => "PT" },
+    { :name => "Arabic", :code => "AR" },
+    { :name => "Swedish", :code => "SV" },
+    { :name => "Dutch", :code => "NL" },
+    { :name => "Italian", :code => "IT" },
+    { :name => "Japanese", :code => "JA" },
+    { :name => "Tamil", :code => "TA" },
+    { :name => "Latin", :code => "LA" }
   ]
 end
 
