@@ -4,6 +4,10 @@ class String
     return false if self.downcase == "false"
     return nil
   end
+
+  def title
+    return self.split.map(&:capitalize).join(' ')
+  end
 end
 
 def auth_test(data)
@@ -149,9 +153,14 @@ def add_bu(data)
 end
 
 def add_category(data)
-  name = categories[rand(categories.count)]
+  num = rand(2) + 1
+  name = ""
+  (0...num).each do |i|
+    name += categories[rand(categories.count)].capitalize + " "
+  end
+  name = name.rstrip.title
   puts category = data[:auth_user].category.add(name,"category")
-  data[:categories][:items] << { :name => name.capitalize, :id => category["Success"] }
+  data[:categories][:items] << { :name => name, :id => category["Success"] }
   data[:categories][:count] += 1
   data
 end
@@ -180,12 +189,22 @@ def add_content(data)
   publisher = data[:publishers][:items][rand(data[:publishers][:count])]
   user = data[:users][:items][rand(data[:users][:count])]
   project = data[:projects][:items][rand(data[:projects][:count])]
-  categories = [ data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id] ]
-  title = Nretnil::FakeData.words( rand(4) + 1 ).capitalize
+  num = rand(3) + 2
+  case num
+    when 2
+      post_categories = [ data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id] ]
+    when 3
+      post_categories = [ data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id] ]
+    when 4
+      post_categories = [ data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id] ]
+    else
+      post_categories = [ data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id] ]
+  end
+  title = title_wizard(categories[rand(categories.count)].capitalize)
   slug = data[:auth_user].helper.slugify(title)
   pub_date = Time.at( rand( data[:pub_date_range] ) + data[:start_pub_date] )
   body = '<img  style="width: 30%; height: auto; float: left; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><img  style="width: 30%; height: auto; float: right; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p>'
-  puts options = { :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => categories, :publisher_id => publisher[:id], :campaign_id => project[:id] }
+  puts options = { :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => post_categories, :publisher_id => publisher[:id], :campaign_id => project[:id] }
   case content_type[:type]
   when "image"
     body = '<p>' + paragraphs[rand(paragraphs.count)] + '</p>'

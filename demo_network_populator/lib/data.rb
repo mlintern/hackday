@@ -22,6 +22,56 @@ def default_data
   }
 end
 
+def title_wizard(topic)
+    titles = [
+        "How to Do #{topic} in Just 3 Steps",
+        "What You Didn't Learn in College About #{topic}",
+        "#{topic}: The Wrong Way and The Right Way",
+        "10 Ways to Do #{topic}",
+        "Get Rid Of #{topic} Trouble Once and For All",
+        "See How Easily You Can Do #{topic}",
+        "The Lazy Man's Way to Do #{topic}",
+        "Five Common Problems With #{topic}",
+        "Little Known Ways to Do #{topic}",
+        "10 Sure Fire Ways to Do #{topic}",
+        "How to Achieve Amazing #{topic}",
+        "What Everybody Ought to Know About #{topic}",
+        "Who Else Wants Awesome #{topic}?",
+        "Give Me 45 Minutes -- And I'll Show Unbelievable #{topic}",
+        "Let Me Tell You How I conquered #{topic}",
+        "#{topic} You Can Be Proud Of",
+        "#{topic} Looks Hard, But it isn't",
+        "#{topic} Build to Last",
+        "#{topic}: Quickly and Easily",
+        "How #{topic} Will Help You Perform Better",
+        "Thousands Now Do #{topic} Who Never Thought They Could",
+        "Now, Have The #{topic} Of a Famous Person",
+        "The Best #{topic} You've Ever Seen or Your Money Back",
+        "If You Don't Try #{topic}, You'll Hate Yourself Later",
+        "You Don't Need to Be Rich to Do #{topic}",
+        "#{topic} Like A Pro",
+        "Do You Make These Horrible #{topic} Mistakes?",
+        "Learn How to Be the Best at #{topic}",
+        "Master #{topic} In Just 2 Days",
+        "9 Surefire Methods to Succeed at #{topic}",
+        "21 Secrets to #{topic}",
+        "New Concepts in #{topic}",
+        "Do You Recognize the 7 Early Warning Signs of #{topic} Failure?",
+        "Can You Spot These 5 Common #{topic} Mistakes?",
+        "If You Struggle With #{topic}, Then Read This",
+        "Three Reasons #{topic} Should Be On Your Radar",
+        "Five ways you will benefit from #{topic}",
+        "What is #{topic} and why is it important?",
+        "What the heck is #{topic} and why would I want it?",
+        "A Simple Guide to #{topic}",
+        "Eight Quick #{topic} Tips",
+        "The Power of #{topic}",
+        "3 Reasons I Succeed at #{topic}",
+        "#{topic} Like a Boss!"
+    ]
+    return titles[rand(titles.length)]
+end
+
 def images
   return [
     "//cdn.app.compendium.com/uploads/user/12a67f85-8b31-465a-93a1-99f578338c75/7b68ecaf-94ec-4ea6-b549-2a99e9c6123f/Image/ecf7f3ef41bcf4e4764ca8e019a33c90/analytics.jpg",
