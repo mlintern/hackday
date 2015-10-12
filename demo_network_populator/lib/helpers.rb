@@ -189,6 +189,7 @@ def add_content(data)
   publisher = data[:publishers][:items][rand(data[:publishers][:count])]
   user = data[:users][:items][rand(data[:users][:count])]
   project = data[:projects][:items][rand(data[:projects][:count])]
+  language = data[:languages][:items][rand(data[:languages][:count])]
   num = rand(3) + 2
   case num
     when 2
@@ -204,7 +205,7 @@ def add_content(data)
   slug = data[:auth_user].helper.slugify(title)
   pub_date = Time.at( rand( data[:pub_date_range] ) + data[:start_pub_date] )
   body = '<img  style="width: 30%; height: auto; float: left; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><img  style="width: 30%; height: auto; float: right; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p>'
-  puts options = { :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => post_categories, :publisher_id => publisher[:id], :campaign_id => project[:id] }
+  puts options = { :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => post_categories, :publisher_id => publisher[:id], :campaign_id => project[:id], :language_id => language[:id] }
   case content_type[:type]
   when "image"
     body = '<p>' + paragraphs[rand(paragraphs.count)] + '</p>'
