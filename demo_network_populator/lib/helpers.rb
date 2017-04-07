@@ -1,113 +1,114 @@
+# encoding: utf-8
+# frozen_string_literal: true
+
 class String
   def to_b
-    return true if self.downcase == "true"
-    return false if self.downcase == "false"
-    return nil
+    return true if casecmp('true').zero?
+    return false if casecmp('false').zero?
+    nil
   end
 
   def title
-    return self.split.map(&:capitalize).join(' ')
+    split.map(&:capitalize).join(' ')
   end
 end
 
 def auth_test(data)
   content_types = data[:auth_user].content_type.list
-  if !content_types.key?(:error) && content_types.length > 0
+  if !content_types.key?(:error) && !content_types.empty?
     return true
   else
     return false
   end
 end
 
-def set_max(data,params)
-
-  data[:users][:max] = params["UserCount"].to_i || 100
-  data[:business_units][:max] = params["BUCount"].to_i || 50
-  data[:categories][:max] = params["CategoryCount"].to_i || 50
-  data[:publishers][:max] = params["PublisherCount"].to_i || 10
-  data[:content][:max] = params["ContentCount"].to_i || 1000
-  data[:languages][:max] = params["LanguageCount"].to_i || 10
+def set_max(data, params)
+  data[:users][:max] = params['UserCount'].to_i || 100
+  data[:business_units][:max] = params['BUCount'].to_i || 50
+  data[:categories][:max] = params['CategoryCount'].to_i || 50
+  data[:publishers][:max] = params['PublisherCount'].to_i || 10
+  data[:content][:max] = params['ContentCount'].to_i || 1000
+  data[:languages][:max] = params['LanguageCount'].to_i || 10
   data[:content_types][:max] = 2
-  data[:content_types][:max] += 1 if params["ImagePost"] == "on"
-  data[:content_types][:max] += 1 if params["VideoPost"] == "on"
-  data[:content_types][:max] += 1 if params["FilePost"] == "on"
-  data[:projects][:max] = params["ProjectCount"].to_i || 20
+  data[:content_types][:max] += 1 if params['ImagePost'] == 'on'
+  data[:content_types][:max] += 1 if params['VideoPost'] == 'on'
+  data[:content_types][:max] += 1 if params['FilePost'] == 'on'
+  data[:projects][:max] = params['ProjectCount'].to_i || 20
 
-  data[:start_pub_date] = data[:params]["DateMin"].length > 0 ? Time.parse(data[:params]["DateMin"]).to_i : Time.now.to_i - ( data[:params]["ContentCount"].to_i * 12 * 60 * 60 )
-  data[:end_pub_date] = data[:params]["DateMax"].length > 0 ? Time.parse(data[:params]["DateMax"]).to_i : Time.now.to_i
+  data[:start_pub_date] = !data[:params]['DateMin'].empty? ? Time.parse(data[:params]['DateMin']).to_i : Time.now.to_i - (data[:params]['ContentCount'].to_i * 12 * 60 * 60)
+  data[:end_pub_date] = !data[:params]['DateMax'].empty? ? Time.parse(data[:params]['DateMax']).to_i : Time.now.to_i
   data[:pub_date_range] = data[:end_pub_date] - data[:start_pub_date]
 
   data
 end
 
 def get_current_data(data)
-
   # Get all of the current data and set the counts.
 
-  puts "Getting Current Data!"
+  puts 'Getting Current Data!'
 
   # get networks publishers
   pubs = data[:auth_user].publisher.list
   pubs.each do |pub|
-    data[:publishers][:items] << { :name => pub["publisher_name"], :id => pub["id"] }
+    data[:publishers][:items] << { name: pub['publisher_name'], id: pub['id'] }
     data[:publishers][:count] += 1
-  end 
+  end
 
   # get networks bus
   bus = data[:auth_user].bu.list
   bus.each do |bu|
-    data[:business_units][:items] << { :name => bu["name"], :id => bu["business_unit_id"] }
+    data[:business_units][:items] << { name: bu['name'], id: bu['business_unit_id'] }
     data[:business_units][:count] += 1
-  end 
+  end
 
   # get networks users
   users = data[:auth_user].user.list
   users.each do |user|
-    user["roles"].each do |role|
-      if role["name"] == "Author"
-        data[:users][:items] << { :name => user["firstname"] + " " + user["lastname"], :id => user["user_id"] }
+    user['roles'].each do |role|
+      if role['name'] == 'Author'
+        data[:users][:items] << { name: user['firstname'] + ' ' + user['lastname'], id: user['user_id'] }
         data[:users][:count] += 1
       end
     end
-  end 
+  end
 
   # get networks categories
-  categories = data[:auth_user].category.list({:NetworkId => data[:network_id], :SearchCriteria => { :BlogType => "category" }.to_json } )
-  categories["Success"].each do |category|
-    data[:categories][:items] << { :name => category["Title"], :id => category["BlogId"] }
+  categories = data[:auth_user].category.list(NetworkId: data[:network_id], SearchCriteria: { BlogType: 'category' }.to_json)
+  categories['Success'].each do |category|
+    data[:categories][:items] << { name: category['Title'], id: category['BlogId'] }
     data[:categories][:count] += 1
   end
 
   # get networks content_types
   content_types = data[:auth_user].content_type.list
   content_types.each do |content_type|
-    if content_type["landing_page"]
-      type = "page"
-    else
-      type = content_type["primary_editor"]
-    end
-    data[:content_types][:items] << { :name => content_type["name"], :id => content_type["id"], :type => type }
+    type = if content_type['landing_page']
+             'page'
+           else
+             content_type['primary_editor']
+           end
+    data[:content_types][:items] << { name: content_type['name'], id: content_type['id'], type: type }
     data[:content_types][:count] += 1
   end
 
   # get networks projects
   projects = data[:auth_user].project.list
   projects.each do |project|
-    data[:projects][:items] << { :name => project["name"], :id => project["id"] }
+    data[:projects][:items] << { name: project['name'], id: project['id'] }
     data[:projects][:count] += 1
   end
 
   # get networks languages
   languages = data[:auth_user].language.list
   languages.each do |language|
-    data[:languages][:items] << { :name => language["name"], :id => language["id"] }
+    data[:languages][:items] << { name: language['name'], id: language['id'] }
     data[:languages][:count] += 1
   end
 
   # get networks content
-  content = data[:auth_user].content.list_all({:NetworkId => data[:network_id]})
-  content["content"].each do |content|
-    data[:content][:items] << { :name => content["title"], :id => content["id"] }
+  content = data[:auth_user].content.list_all(NetworkId: data[:network_id])
+  content['content'].each do |content|
+    data[:content][:items] << { name: content['title'], id: content['id'] }
     data[:content][:count] += 1
   end
 
@@ -117,25 +118,25 @@ end
 def add_user(data)
   bu_ids = []
   data[:business_units][:items].each do |bu|
-      bu_ids << bu[:id]
+    bu_ids << bu[:id]
   end
-  user = { :error => "true" }
+  user = { error: 'true' }
   while user.key?(:error)
     firstname = Nretnil::FakeData.name
     lastname = Nretnil::FakeData.surname
-    username = (firstname[0,1] + lastname).downcase + "-" + data[:network_id]
-    puts email = data[:params]["EmailAddress"].length > 0 ? data[:params]["EmailAddress"] : firstname+"."+lastname+"@"+Nretnil::FakeData.word+".com" 
+    username = (firstname[0, 1] + lastname).downcase + '-' + data[:network_id]
+    puts email = !data[:params]['EmailAddress'].empty? ? data[:params]['EmailAddress'] : firstname + '.' + lastname + '@' + Nretnil::FakeData.word + '.com'
     begin
-      puts user = data[:auth_user].user.add(username,firstname,lastname,email,{ :BusinessUnits => bu_ids })
-      user_id = user["Success"]["UserId"]
-      blog_id = user["Success"]["BlogId"]
-      puts result = data[:auth_user].post("/app/blog/edit",{ :BlogId => blog_id, :Attributes => { :Title => firstname + " " + lastname }.to_json })
-      puts result = data[:auth_user].role.assign(user_id,[data[:author_role_id]])
+      puts user = data[:auth_user].user.add(username, firstname, lastname, email, BusinessUnits: bu_ids)
+      user_id = user['Success']['UserId']
+      blog_id = user['Success']['BlogId']
+      puts result = data[:auth_user].post('/app/blog/edit', BlogId: blog_id, Attributes: { Title: firstname + ' ' + lastname }.to_json)
+      puts result = data[:auth_user].role.assign(user_id, [data[:author_role_id]])
     rescue
       data[:errors] << user
     end
   end
-  data[:users][:items] << { :name => firstname + " " + lastname, :id => user_id }
+  data[:users][:items] << { name: firstname + ' ' + lastname, id: user_id }
   data[:users][:count] += 1
   data
 end
@@ -143,24 +144,24 @@ end
 def add_bu(data)
   pub_ids = []
   data[:publishers][:items].each do |pub|
-      pub_ids << pub[:id]
+    pub_ids << pub[:id]
   end
   name = Nretnil::FakeData.words(2)
-  puts bu = data[:auth_user].bu.add(name.capitalize,pub_ids)
-  data[:business_units][:items] << { :name => name.capitalize, :id => bu["business_unit_id"] }
+  puts bu = data[:auth_user].bu.add(name.capitalize, pub_ids)
+  data[:business_units][:items] << { name: name.capitalize, id: bu['business_unit_id'] }
   data[:business_units][:count] += 1
   data
 end
 
 def add_category(data)
   num = rand(2) + 1
-  name = ""
-  (0...num).each do |i|
-    name += categories[rand(categories.count)].capitalize + " "
+  name = ''
+  (0...num).each do |_i|
+    name += categories[rand(categories.count)].capitalize + ' '
   end
   name = name.rstrip.title
-  puts category = data[:auth_user].category.add(name,"category")
-  data[:categories][:items] << { :name => name, :id => category["Success"] }
+  puts category = data[:auth_user].category.add(name, 'category')
+  data[:categories][:items] << { name: name, id: category['Success'] }
   data[:categories][:count] += 1
   data
 end
@@ -168,17 +169,17 @@ end
 def add_project(data)
   name = Nretnil::FakeData.word
   color = Nretnil::FakeData.color[:hex]
-  puts project = data[:auth_user].project.add(name.capitalize,{ :color => color })
-  data[:projects][:items] << { :name => name.capitalize, :id => project["id"] }
+  puts project = data[:auth_user].project.add(name.capitalize, color: color)
+  data[:projects][:items] << { name: name.capitalize, id: project['id'] }
   data[:projects][:count] += 1
   data
 end
 
 def add_publisher(data)
   name = Nretnil::FakeData.words(2)
-  domain = data[:params]["PublisherDomain"] || "compendiumblog.com"
-  puts pub = data[:auth_user].publisher.add(name.capitalize,name + "." + domain, { :template_id => data[:template_id], :postsPerPage => 10, :start_page_ui_type => "uber", :start_page_ui_id => "", :render_engine => "twig", :uri_pattern => "flex" })
-  data[:publishers][:items] << { :name => name.capitalize, :id => pub["id"] }
+  domain = data[:params]['PublisherDomain'] || 'compendiumblog.com'
+  puts pub = data[:auth_user].publisher.add(name.capitalize, name + '.' + domain, template_id: data[:template_id], postsPerPage: 10, start_page_ui_type: 'uber', start_page_ui_id: '', render_engine: 'twig', uri_pattern: 'flex')
+  data[:publishers][:items] << { name: name.capitalize, id: pub['id'] }
   data[:publishers][:count] += 1
   data
 end
@@ -191,36 +192,36 @@ def add_content(data)
   project = data[:projects][:items][rand(data[:projects][:count])]
   language = data[:languages][:items][rand(data[:languages][:count])]
   num = rand(3) + 2
-  case num
-    when 2
-      post_categories = [ data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id] ]
-    when 3
-      post_categories = [ data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id] ]
-    when 4
-      post_categories = [ data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id] ]
-    else
-      post_categories = [ data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id] ]
-  end
+  post_categories = case num
+                    when 2
+                      [data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id]]
+                    when 3
+                      [data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id]]
+                    when 4
+                      [data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id]]
+                    else
+                      [data[:categories][:items][rand(data[:categories][:count])][:id], data[:categories][:items][rand(data[:categories][:count])][:id]]
+                    end
   title = title_wizard(categories[rand(categories.count)].capitalize)
   slug = data[:auth_user].helper.slugify(title)
-  pub_date = Time.at( rand( data[:pub_date_range] ) + data[:start_pub_date] )
+  pub_date = Time.at(rand(data[:pub_date_range]) + data[:start_pub_date])
   body = '<img  style="width: 30%; height: auto; float: left; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><img  style="width: 30%; height: auto; float: right; margin: 5px;" src="' + images[rand(images.count)] + '"/><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p><p>' + paragraphs[rand(paragraphs.count)] + '</p>'
-  puts options = { :business_unit_id => business_unit[:id], :publish_date => pub_date, :url_lookup_token => slug, :category_ids => post_categories, :publisher_id => publisher[:id], :campaign_id => project[:id], :language_id => language[:id] }
+  puts options = { business_unit_id: business_unit[:id], publish_date: pub_date, url_lookup_token: slug, category_ids: post_categories, publisher_id: publisher[:id], campaign_id: project[:id], language_id: language[:id] }
   case content_type[:type]
-  when "image"
+  when 'image'
     body = '<p>' + paragraphs[rand(paragraphs.count)] + '</p>'
     image = images[rand(images.count)]
-    extra_options = { :primary_attachment => { :url => image }, :featured_image => image }
-  when "video"
+    extra_options = { primary_attachment: { url: image }, featured_image: image }
+  when 'video'
     body = '<p>' + paragraphs[rand(paragraphs.count)] + '</p>'
     image = images[rand(images.count)]
     video = videos[rand(videos.count)]
-    extra_options = { :primary_attachment => { :url => video, :featured_image => image } }
-  when "file"
+    extra_options = { primary_attachment: { url: video, featured_image: image } }
+  when 'file'
     body = '<p>' + paragraphs[rand(paragraphs.count)] + '</p>'
     image = images[rand(images.count)]
     file = files[rand(files.count)]
-    extra_options = { :primary_attachment => { :url => file }, :featured_image => image }
+    extra_options = { primary_attachment: { url: file }, featured_image: image }
   else
     extra_options = {}
   end
@@ -228,30 +229,29 @@ def add_content(data)
   options = options.merge(extra_options)
   failed = true
   while failed
-    
+
     begin
       if data[:root_user].nil?
         puts asset = data[:auth_user].content.add(user[:id], title, body, content_type[:id], options)
       else
-        approval_options = { :import_live => true, :import_from => "Network Populator", :network_id => data[:network_id], :publish_date => pub_date, :post_publication => { :remote_id => nil, :publish_stamp => pub_date, :remote_url => nil, :remote_state => nil, :state => 'published' } }
+        approval_options = { import_live: true, import_from: 'Network Populator', network_id: data[:network_id], publish_date: pub_date, post_publication: { remote_id: nil, publish_stamp: pub_date, remote_url: nil, remote_state: nil, state: 'published' } }
         options = options.merge(approval_options)
         puts asset = data[:root_user].content.add(user[:id], title, body, content_type[:id], options)
       end
 
       case content_type[:type]
-      when "image"
-        asset_id = asset["id"]
-        file_name = image.split("/")[-1]
-        puts attachment = data[:auth_user].post("/api/posts/"+asset_id+"/attachments", { :name => file_name, :source_url => image, :url => image, :type => "image/jpeg", :primary_content => true, :storage_location => "File" }.to_json )
-      when "video"
-        asset_id = asset["id"]
-        file_name = "EmbeddedVideo"
-        puts attachment = data[:auth_user].post("/api/posts/"+asset_id+"/attachments", { :name => file_name, :url => video, :type => "video", :primary_content => true, :storage_location => "Embed" }.to_json )
-      when "file"
-        asset_id = asset["id"]
-        file_name = image.split("/")[-1]
-        puts attachment = data[:auth_user].post("/api/posts/"+asset_id+"/attachments", { :name => file_name, :source_url => file, :url => file, :type => "image/jpeg", :primary_content => true, :storage_location => "File" }.to_json )
-      else
+      when 'image'
+        asset_id = asset['id']
+        file_name = image.split('/')[-1]
+        puts attachment = data[:auth_user].post('/api/posts/' + asset_id + '/attachments', { name: file_name, source_url: image, url: image, type: 'image/jpeg', primary_content: true, storage_location: 'File' }.to_json)
+      when 'video'
+        asset_id = asset['id']
+        file_name = 'EmbeddedVideo'
+        puts attachment = data[:auth_user].post('/api/posts/' + asset_id + '/attachments', { name: file_name, url: video, type: 'video', primary_content: true, storage_location: 'Embed' }.to_json)
+      when 'file'
+        asset_id = asset['id']
+        file_name = image.split('/')[-1]
+        puts attachment = data[:auth_user].post('/api/posts/' + asset_id + '/attachments', { name: file_name, source_url: file, url: file, type: 'image/jpeg', primary_content: true, storage_location: 'File' }.to_json)
       end
       failed = false
     rescue
@@ -266,36 +266,35 @@ def add_content(data)
     end
 
   end
-  data[:content][:items] << { :name => title, :id => asset["id"] }
+  data[:content][:items] << { name: title, id: asset['id'] }
   data[:content][:count] += 1
   data
 end
 
-def add_template (data)
-
-  templates = data[:auth_user].get("/api/templates", { :network_id => data[:network_id] } )
+def add_template(data)
+  templates = data[:auth_user].get('/api/templates', network_id: data[:network_id])
   if templates.count > 0
-    puts "Using Current Template"
-    data[:template_id] = templates[0]["id"]
+    puts 'Using Current Template'
+    data[:template_id] = templates[0]['id']
   else
-    puts "Creating New Template"
-    puts result = data[:auth_user].post("/api/templates", { :network => data[:network_id], :name => "Network Populator Template" }.to_json )
-    data[:template_id] = template_id = result["id"]
+    puts 'Creating New Template'
+    puts result = data[:auth_user].post('/api/templates', { network: data[:network_id], name: 'Network Populator Template' }.to_json)
+    data[:template_id] = template_id = result['id']
 
-    puts result = data[:auth_user].post("/api/templates/"+template_id+"/template_files", { :name => "default.tpl" }.to_json )
-    default_id = result["id"]
+    puts result = data[:auth_user].post('/api/templates/' + template_id + '/template_files', { name: 'default.tpl' }.to_json)
+    default_id = result['id']
 
-    puts result = data[:auth_user].put("/api/template_files/"+default_id, { :content => default_template }.to_json )
+    puts result = data[:auth_user].put('/api/template_files/' + default_id, { content: default_template }.to_json)
 
-    puts result = data[:auth_user].post("/api/templates/"+template_id+"/widgets", { :widget_type => "AllCategories", :widget_name => "Categories" }.to_json )
-    categories_id = result["template_file"]["id"]
-    puts result = data[:auth_user].put("/api/template_files/"+categories_id, { :content => all_categories }.to_json )
+    puts result = data[:auth_user].post('/api/templates/' + template_id + '/widgets', { widget_type: 'AllCategories', widget_name: 'Categories' }.to_json)
+    categories_id = result['template_file']['id']
+    puts result = data[:auth_user].put('/api/template_files/' + categories_id, { content: all_categories }.to_json)
 
-    puts result = data[:auth_user].post("/api/templates/"+template_id+"/widgets", { :widget_type => "ContentList", :widget_name => "Last Couple", :properties => { :limit => 2 } }.to_json )
-    last_couple_id = result["template_file"]["id"]
-    puts result = data[:auth_user].put("/api/template_files/"+last_couple_id, { :content => last_couple }.to_json )
+    puts result = data[:auth_user].post('/api/templates/' + template_id + '/widgets', { widget_type: 'ContentList', widget_name: 'Last Couple', properties: { limit: 2 } }.to_json)
+    last_couple_id = result['template_file']['id']
+    puts result = data[:auth_user].put('/api/template_files/' + last_couple_id, { content: last_couple }.to_json)
 
-    puts result = data[:auth_user].post("/api/templates/"+template_id+"/revisions", { :comment => "publishing" }.to_json )
+    puts result = data[:auth_user].post('/api/templates/' + template_id + '/revisions', { comment: 'publishing' }.to_json)
   end
 
   data
@@ -303,7 +302,7 @@ end
 
 def get_bu_ids(data)
   bus = data[:business_units][:items]
-  bu_ids =[]
+  bu_ids = []
   bus.each do |bu|
     bu_ids << bu[:id]
   end
@@ -311,55 +310,53 @@ def get_bu_ids(data)
 end
 
 def update_user_bus(data)
-  puts "Updating User BUs"
+  puts 'Updating User BUs'
   users = data[:users][:items]
   bu_ids = get_bu_ids(data)
   users.each do |user|
-    data[:auth_user].put('/api/users/' + user[:id] + '/business_units', { :business_unit_ids => bu_ids }.to_json )
+    data[:auth_user].put('/api/users/' + user[:id] + '/business_units', { business_unit_ids: bu_ids }.to_json)
   end
 end
 
 def update_category_bus(data)
-  puts "Updating Category BUs"
+  puts 'Updating Category BUs'
   categories = data[:categories][:items]
   bu_ids = get_bu_ids(data)
   categories.each do |category|
-    data[:auth_user].post('/app/blogs/' + category[:id], { :BusinessUnitIds => bu_ids, :AllBusinessUnits => true, :Attributes => { :Title => category[:name], :Description => category[:name], :ParentId => "root", :PublisherIds => [] }.to_json } )
+    data[:auth_user].post('/app/blogs/' + category[:id], BusinessUnitIds: bu_ids, AllBusinessUnits: true, Attributes: { Title: category[:name], Description: category[:name], ParentId: 'root', PublisherIds: [] }.to_json)
   end
 end
 
 def update_project_bus(data)
-  puts "Updating Project BUs"
+  puts 'Updating Project BUs'
   projects = data[:projects][:items]
   bu_ids = get_bu_ids(data)
   projects.each do |project|
-    data[:auth_user].project.edit(project[:id],{ :business_units => bu_ids, :all_business_units => true })
+    data[:auth_user].project.edit(project[:id], business_units: bu_ids, all_business_units: true)
   end
 end
 
 def update_content_type_bus(data)
-  puts "Updating Content Type BUs"
+  puts 'Updating Content Type BUs'
   content_types = data[:content_types][:items]
   bu_ids = get_bu_ids(data)
   content_types.each do |ct|
-    data[:auth_user].content_type.edit(ct[:id], {}, { :business_units => bu_ids, :all_business_units => true })
+    data[:auth_user].content_type.edit(ct[:id], {}, business_units: bu_ids, all_business_units: true)
   end
 end
 
 def populate(data)
   new_bus = false
 
-  if data[:business_units][:max] > data[:business_units][:count]
-    new_bus = true
-  end
+  new_bus = true if data[:business_units][:max] > data[:business_units][:count]
 
   data = add_template(data)
 
-  (data[:publishers][:count]...data[:publishers][:max]).each do |i|
+  (data[:publishers][:count]...data[:publishers][:max]).each do |_i|
     data = add_publisher(data)
   end
 
-  (data[:business_units][:count]...data[:business_units][:max]).each do |i|
+  (data[:business_units][:count]...data[:business_units][:max]).each do |_i|
     data = add_bu(data)
   end
 
@@ -372,16 +369,14 @@ def populate(data)
 
   roles = data[:auth_user].role.list
   roles.each do |role|
-    if role["name"] == "Author"
-      data[:author_role_id] = role["id"]
-    end
+    data[:author_role_id] = role['id'] if role['name'] == 'Author'
   end
 
-  (data[:users][:count]...data[:users][:max]).each do |i|
+  (data[:users][:count]...data[:users][:max]).each do |_i|
     data = add_user(data)
   end
 
-  (data[:categories][:count]...data[:categories][:max]).each do |i|
+  (data[:categories][:count]...data[:categories][:max]).each do |_i|
     data = add_category(data)
   end
 
@@ -389,77 +384,74 @@ def populate(data)
 
   data[:content_types][:items].each do |ct|
     case ct[:type]
-    when "rich_text"
-      puts "Found Text Type"
+    when 'rich_text'
+      puts 'Found Text Type'
       text_type = true
-    when "page"
-      puts "Found Page Type"
+    when 'page'
+      puts 'Found Page Type'
       page_type = true
-    when "video"
-      puts "Found Video Type"
+    when 'video'
+      puts 'Found Video Type'
       video_type = true
-    when "image"
-      puts "Found Image Type"
+    when 'image'
+      puts 'Found Image Type'
       image_type = true
-    when "file"
-      puts "Found File Type"
+    when 'file'
+      puts 'Found File Type'
       file_type = true
-    else
     end
   end
 
-  if !text_type
-    puts "Creating Text Type"
-    puts ct = data[:auth_user].content_type.add("Text NP", { :primary_editor => "rich_text", :config => { :show_description => true } } )
-    data[:content_types][:items] << { :name => "Text NP", :id => ct["id"], :type => "rich_text" }
+  unless text_type
+    puts 'Creating Text Type'
+    puts ct = data[:auth_user].content_type.add('Text NP', primary_editor: 'rich_text', config: { show_description: true })
+    data[:content_types][:items] << { name: 'Text NP', id: ct['id'], type: 'rich_text' }
     data[:content_types][:count] += 1
   end
 
-  if !page_type
-    puts "Creating Page Type"
-    puts ct = data[:auth_user].content_type.add("Page NP", { :primary_editor => "rich_text", :config => { :show_description => true }, :landing_page => true })
-    data[:content_types][:items] << { :name => "Page NP", :id => ct["id"], :type => "page" }
+  unless page_type
+    puts 'Creating Page Type'
+    puts ct = data[:auth_user].content_type.add('Page NP', primary_editor: 'rich_text', config: { show_description: true }, landing_page: true)
+    data[:content_types][:items] << { name: 'Page NP', id: ct['id'], type: 'page' }
     data[:content_types][:count] += 1
   end
 
-  if ( data[:params]["ImagePost"] == "on" && !image_type )
-    puts "Creating Image Type"
-    puts ct = data[:auth_user].content_type.add("Image NP", { :show_description => true, :content_score => false }, { :primary_editor => "image", :icon => "fa-picture-o" } )
-    data[:content_types][:items] << { :name => "Image NP", :id => ct["id"], :type => "image" }
+  if data[:params]['ImagePost'] == 'on' && !image_type
+    puts 'Creating Image Type'
+    puts ct = data[:auth_user].content_type.add('Image NP', { show_description: true, content_score: false }, primary_editor: 'image', icon: 'fa-picture-o')
+    data[:content_types][:items] << { name: 'Image NP', id: ct['id'], type: 'image' }
     data[:content_types][:count] += 1
   end
 
-  if ( data[:params]["VideoPost"] == "on" && !video_type )
-    puts "Creating Video Type"
-    puts ct = data[:auth_user].content_type.add("Video NP", { :show_description => true, :content_score => false }, { :primary_editor => "video", :icon => "fa-film" } )
-    data[:content_types][:items] << { :name => "Video NP", :id => ct["id"], :type => "video" }
+  if data[:params]['VideoPost'] == 'on' && !video_type
+    puts 'Creating Video Type'
+    puts ct = data[:auth_user].content_type.add('Video NP', { show_description: true, content_score: false }, primary_editor: 'video', icon: 'fa-film')
+    data[:content_types][:items] << { name: 'Video NP', id: ct['id'], type: 'video' }
     data[:content_types][:count] += 1
   end
 
-  if ( data[:params]["FilePost"] == "on" && !file_type )
-    puts "Creating File Type"
-    puts ct = data[:auth_user].content_type.add("File NP", { :show_description => true, :content_score => false }, { :primary_editor => "file", :icon => "fa-file" } )
-    data[:content_types][:items] << { :name => "File NP", :id => ct["id"], :type => "file" }
+  if data[:params]['FilePost'] == 'on' && !file_type
+    puts 'Creating File Type'
+    puts ct = data[:auth_user].content_type.add('File NP', { show_description: true, content_score: false }, primary_editor: 'file', icon: 'fa-file')
+    data[:content_types][:items] << { name: 'File NP', id: ct['id'], type: 'file' }
     data[:content_types][:count] += 1
   end
 
-  (data[:projects][:count]...data[:projects][:max]).each do |i|
+  (data[:projects][:count]...data[:projects][:max]).each do |_i|
     data = add_project(data)
   end
 
   (data[:languages][:count]...data[:languages][:max]).each do |i|
-    lang = data[:auth_user].language.add(languages[i][:name],languages[i][:code])
-    data[:languages][:items] << { :name => languages[i][:name], :id => lang["id"] }
+    lang = data[:auth_user].language.add(languages[i][:name], languages[i][:code])
+    data[:languages][:items] << { name: languages[i][:name], id: lang['id'] }
     data[:languages][:count] += 1
   end
 
-  (data[:content][:count]...data[:content][:max]).each do |i|
+  (data[:content][:count]...data[:content][:max]).each do |_i|
     data = add_content(data)
   end
 
   data[:end_time] = Time.now
 
-  return true
+  true
 end
-
-
